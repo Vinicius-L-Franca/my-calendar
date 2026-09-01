@@ -2,31 +2,36 @@
 
 ## 1. Visão Geral
 
-My Calendar é uma aplicação SPA (Single Page Application) construída com HTML5, CSS3 e JavaScript vanilla, sem dependência de frameworks frontend. O backend é simulado via JSON Server, e o localStorage é utilizado como cache local dos dados.
+My Calendar é uma aplicação web construída com HTML5, CSS3 e JavaScript vanilla, sem dependência de frameworks frontend. O backend é simulado via JSON Server, o localStorage é utilizado como cache local dos dados e a API pública ViaCEP é consumida para completar endereços a partir do CEP.
 
 ```
-┌─────────────────────────────────────────────┐
-│                  Navegador                   │
-│                                             │
-│  ┌─────────┐  ┌──────────┐  ┌───────────┐  │
-│  │  HTML   │  │   CSS    │  │    JS     │  │
-│  │ (DOM)   │◄─┤ (Tokens) │◄─┤ (Módulos) │  │
-│  └─────────┘  └──────────┘  └─────┬─────┘  │
-│                                    │        │
-│                          fetch/async│await   │
-│                                    │        │
-│                     ┌──────────────┤        │
-│                     │              │        │
-│              ┌──────▼─────┐ ┌─────▼──────┐ │
-│              │ localStorage│ │ JSON Server│ │
-│              │  (cache)    │ │  (API)     │ │
-│              └────────────┘ └─────┬──────┘ │
-└──────────────────────────────────┼─────────┘
-                                   │
-                            ┌──────▼──────┐
-                            │   db.json   │
-                            │ (banco fake) │
-                            └─────────────┘
+┌──────────────────────────────────────────────┐
+│                  Navegador                    │
+│                                              │
+│  ┌─────────┐  ┌──────────┐  ┌────────────┐  │
+│  │  HTML   │  │   CSS    │  │     JS     │  │
+│  │ (3 págs)│◄─┤ (Tokens) │◄─┤ (Módulos)  │  │
+│  └─────────┘  └──────────┘  └─────┬──────┘  │
+│                                   │          │
+│                         fetch/async│await     │
+│                                   │          │
+│                    ┌──────────────┤          │
+│                    │              │          │
+│             ┌──────▼─────┐ ┌─────▼────────┐ │
+│             │ localStorage│ │ JSON Server  │ │
+│             │  (cache)    │ │  (API fake)  │ │
+│             └────────────┘ └─────┬────────┘ │
+│                                  └────┬─────┘
+│                                 ┌─────▼──────┐
+│                                 │   db.json   │
+│                                 │ (banco fake)│
+│                                 └────────────┘
+│
+│          ┌──────────────────────────────┐
+│          │  ViaCEP (API pública)        │
+│          │  GET /ws/{cep}/json/          │
+│          └──────────────────────────────┘
+└──────────────────────────────────────────────┘
 ```
 
 ---
@@ -35,12 +40,13 @@ My Calendar é uma aplicação SPA (Single Page Application) construída com HTM
 
 | Camada | Tecnologia | Justificativa |
 |--------|------------|---------------|
-| **Estrutura** | HTML5 | Semântica e acessibilidade nativa |
+| **Estrutura** | HTML5 | 3 páginas distintas: listagem, formulário e estatísticas |
 | **Estilização** | CSS3 (vanilla) | Design Tokens via CSS Variables, layout com Flexbox/Grid |
 | **Lógica** | JavaScript ES6+ (vanilla) | Módulos, classes, fetch API, destructuring |
 | **Backend Fake** | JSON Server | Simulação de API REST com CRUD completo |
 | **Persistência** | localStorage | Cache offline e dados de preferências do usuário |
-| **Comunicação** | fetch / async/await | Requisições assíncronas à API REST |
+| **API Pública** | ViaCEP | Consulta assíncrona de endereço a partir do CEP |
+| **Comunicação** | fetch / async/await | Requisições assíncronas à API REST e ao ViaCEP |
 
 ---
 
@@ -61,7 +67,6 @@ Os Design Tokens definem a linguagem visual padronizada da aplicação. Todos os
   --color-border: #DADCE0;
 
   /* Estado */
-  --color-today: #E8F0FE;
   --color-hover: #F1F3F4;
   --color-danger: #D93025;
 
@@ -84,8 +89,10 @@ Os Design Tokens definem a linguagem visual padronizada da aplicação. Todos os
   --font-size-md: 14px;
   --font-size-lg: 16px;
   --font-size-xl: 22px;
+  --font-size-xxl: 28px;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
+  --font-weight-bold: 700;
 }
 ```
 
@@ -108,7 +115,6 @@ Os Design Tokens definem a linguagem visual padronizada da aplicação. Todos os
 :root {
   --border-radius: 8px;
   --border-radius-sm: 4px;
-  --border-radius-full: 50%;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -131,6 +137,11 @@ erDiagram
         string categoria
         string recorrencia
         string dataFimRecorrencia
+        boolean concluido
+        string cep
+        string logradouro
+        string cidade
+        string uf
         int idEventoPai FK
     }
 
@@ -158,6 +169,11 @@ Um evento pode gerar múltiplas instâncias futuras quando configurado como reco
 | `categoria` | string | sim | Enum válido | Categoria do evento |
 | `recorrencia` | string | sim | Enum válido | Tipo de recorrência |
 | `dataFimRecorrencia` | string (ISO) | condicional | Formato `AAAA-MM-DD`, > `data` | Data fim da recorrência |
+| `concluido` | boolean | sim | `true` \| `false` | Indica se o evento foi realizado |
+| `cep` | string | não | Regex: `/^[0-9]{5}-[0-9]{3}$/` | CEP do local do evento |
+| `logradouro` | string | não | Máximo 200 caracteres | Endereço do local (preenchido via ViaCEP) |
+| `cidade` | string | não | Máximo 100 caracteres | Cidade do evento |
+| `uf` | string | não | Regex: `/[A-Z]{2}/` | Unidade federativa |
 | `idEventoPai` | number \| null | não | FK → `EVENTO.id` ou `null` | ID do evento pai (instâncias recorrentes) |
 
 ### Enums
@@ -195,6 +211,11 @@ Um evento pode gerar múltiplas instâncias futuras quando configurado como reco
   "categoria": "trabalho",
   "recorrencia": "none",
   "dataFimRecorrencia": null,
+  "concluido": false,
+  "cep": "80010-010",
+  "logradouro": "Rua das Flores",
+  "cidade": "Curitiba",
+  "uf": "PR",
   "idEventoPai": null
 }
 ```
@@ -210,55 +231,50 @@ Um evento pode gerar múltiplas instâncias futuras quando configurado como reco
   "categoria": "estudos",
   "recorrencia": "weekly",
   "dataFimRecorrencia": "2026-12-31",
+  "concluido": false,
+  "cep": null,
+  "logradouro": null,
+  "cidade": null,
+  "uf": null,
   "idEventoPai": null
-}
-```
-
-```json
-{
-  "id": 3,
-  "titulo": "Aula de inglês",
-  "data": "2026-09-01",
-  "horaInicio": "18:00",
-  "horaFim": "19:00",
-  "descricao": "",
-  "categoria": "estudos",
-  "recorrencia": "weekly",
-  "dataFimRecorrencia": "2026-12-31",
-  "idEventoPai": 2
 }
 ```
 
 ---
 
-## 6. Contrato da API (JSON Server)
+## 6. Contrato da API
 
-### Endpoints
+### 6.1 JSON Server (API Fake)
+
+**Endpoints:**
 
 | Método | Endpoint | Descrição | Query Params |
 |--------|----------|-----------|--------------|
-| `GET` | `/events` | Listar todos os eventos | `?date=AAAA-MM-DD`, `?category=X` |
+| `GET` | `/events` | Listar todos os eventos | `?categoria=X`, `?_sort=data` |
 | `GET` | `/events/:id` | Buscar evento por ID | — |
 | `POST` | `/events` | Criar novo evento | — |
 | `PUT` | `/events/:id` | Atualizar evento existente | — |
 | `DELETE` | `/events/:id` | Excluir evento | — |
 
-### Estrutura de Requisição
-
-**Criar evento:**
+**Estrutura de Requisição — Criar evento:**
 ```http
 POST /events HTTP/1.1
 Content-Type: application/json
 
 {
-  "titulo": "Nova reunião",
-  "data": "2026-08-25",
-  "horaInicio": "10:00",
-  "horaFim": "11:00",
-  "descricao": "Reunião de alinhamento",
-  "categoria": "trabalho",
-  "recorrencia": "none",
-  "dataFimRecorrencia": null,
+  "titulo": "Consulta médica",
+  "data": "2026-09-10",
+  "horaInicio": "09:00",
+  "horaFim": "10:00",
+  "descricao": "Check-up anual",
+  "categoria": "saude",
+  "recorrencia": "yearly",
+  "dataFimRecorrencia": "2030-09-10",
+  "concluido": false,
+  "cep": "80020-000",
+  "logradouro": "Rua XV de Novembro",
+  "cidade": "Curitiba",
+  "uf": "PR",
   "idEventoPai": null
 }
 ```
@@ -267,17 +283,44 @@ Content-Type: application/json
 ```json
 {
   "id": 4,
-  "titulo": "Nova reunião",
-  "data": "2026-08-25",
-  "horaInicio": "10:00",
-  "horaFim": "11:00",
-  "descricao": "Reunião de alinhamento",
-  "categoria": "trabalho",
-  "recorrencia": "none",
-  "dataFimRecorrencia": null,
+  "titulo": "Consulta médica",
+  "data": "2026-09-10",
+  "horaInicio": "09:00",
+  "horaFim": "10:00",
+  "descricao": "Check-up anual",
+  "categoria": "saude",
+  "recorrencia": "yearly",
+  "dataFimRecorrencia": "2030-09-10",
+  "concluido": false,
+  "cep": "80020-000",
+  "logradouro": "Rua XV de Novembro",
+  "cidade": "Curitiba",
+  "uf": "PR",
   "idEventoPai": null
 }
 ```
+
+### 6.2 ViaCEP (API Pública)
+
+**Endpoint de consulta:**
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `https://viacep.com.br/ws/{cep}/json/` | Consultar endereço a partir do CEP (formato `00000-000`) |
+
+**Resposta (200 OK):**
+```json
+{
+  "cep": "80020-000",
+  "logradouro": "Rua XV de Novembro",
+  "bairro": "Centro",
+  "localidade": "Curitiba",
+  "uf": "PR",
+  "erro": false
+}
+```
+
+**Tratamento de erro (CEP inexistente):** a API retorna o campo `"erro": true`. Para CEPs com formato inválido, a aplicação bloqueia a requisição na validação de formulário.
 
 ---
 
@@ -285,22 +328,22 @@ Content-Type: application/json
 
 ```
 my-calendar/
-├── index.html                # Página principal (SPA)
+├── index.html                # Página principal: listagem de eventos em cards
+├── evento.html               # Formulário de criação/edição de eventos
+├── estatisticas.html         # Página de estatísticas da agenda
 ├── css/
 │   ├── reset.css             # Reset do CSS (normalize)
 │   ├── variables.css         # Design Tokens (CSS Variables)
-│   ├── calendar.css          # Estilos do calendário (grid mensal/semanal/diário)
-│   ├── modal.css             # Estilos do modal de criação/edição de eventos
+│   ├── layout.css            # Header, navegação e grade responsiva
+│   ├── cards.css             # Estilos dos cards de eventos
 │   ├── form.css              # Estilos de formulários e estados de validação
 │   └── responsive.css        # Media queries (mobile-first)
 ├── js/
-│   ├── main.js               # Inicialização e event listeners globais
-│   ├── calendar.js           # Renderização das visões (mês/semana/dia)
+│   ├── main.js               # Inicialização, busca e filtro por categoria
 │   ├── events.js             # CRUD de eventos (fetch + localStorage)
-│   ├── modal.js              # Abertura, fechamento e controle de modais
-│   ├── form.js               # Validação de formulários com regex
+│   ├── form.js               # Validação de formulários + consumo do ViaCEP
 │   ├── recurrence.js         # Lógica de geração de eventos recorrentes
-│   ├── dragdrop.js           # Drag-and-drop nas visões semanal e diária
+│   ├── stats.js              # Cálculo e exibição de estatísticas
 │   └── storage.js            # Abstração de leitura/escrita no localStorage
 ├── db/
 │   └── db.json               # Banco de dados do JSON Server
@@ -313,31 +356,40 @@ my-calendar/
 
 ## 8. Padrões de Manipulação do DOM
 
-Todos os elementos visuais do calendário são criados dinamicamente via JavaScript, sem uso de `innerHTML` para templates complexos.
+Todos os elementos visuais da listagem são criados dinamicamente via JavaScript, sem uso de `innerHTML` para templates complexos.
 
-### 8.1 Criação de Elementos
+### 8.1 Criação de Cards
 
 ```javascript
-function createDayElement(date, events) {
-  const dayEl = document.createElement('div');
-  dayEl.classList.add('calendar-day');
-  dayEl.dataset.date = date.toISOString().split('T')[0];
+function createEventCard(event) {
+  const cardEl = document.createElement('article');
+  cardEl.classList.add('event-card', `category-${event.categoria}`);
+  if (event.concluido) cardEl.classList.add('event-card--done');
+  cardEl.dataset.eventId = event.id;
 
-  const numberEl = document.createElement('span');
-  numberEl.classList.add('day-number');
-  numberEl.textContent = date.getDate();
-  dayEl.appendChild(numberEl);
+  const titleEl = document.createElement('h3');
+  titleEl.classList.add('event-card__title');
+  titleEl.textContent = event.titulo;
+  cardEl.appendChild(titleEl);
 
-  events.forEach(event => {
-    const eventEl = document.createElement('div');
-    eventEl.classList.add('event-chip', `category-${event.categoria}`);
-    eventEl.textContent = event.titulo;
-    eventEl.draggable = true;
-    eventEl.dataset.eventId = event.id;
-    dayEl.appendChild(eventEl);
-  });
+  const metaEl = document.createElement('p');
+  metaEl.classList.add('event-card__meta');
+  metaEl.textContent = `${formatDate(event.data)} · ${event.horaInicio} – ${event.horaFim}`;
+  cardEl.appendChild(metaEl);
 
-  return dayEl;
+  if (event.descricao) {
+    const descEl = document.createElement('p');
+    descEl.classList.add('event-card__description');
+    descEl.textContent = event.descricao;
+    cardEl.appendChild(descEl);
+  }
+
+  const badgeEl = document.createElement('span');
+  badgeEl.classList.add('event-card__badge');
+  badgeEl.textContent = CATEGORIAS[event.categoria].label;
+  cardEl.appendChild(badgeEl);
+
+  return cardEl;
 }
 ```
 
@@ -346,7 +398,7 @@ function createDayElement(date, events) {
 | Padrão | Regra |
 |--------|-------|
 | **Criação** | Usar `document.createElement()` para todos os elementos dinâmicos |
-| **Atributos de dados** | Usar `dataset` para armazenar IDs e datas (`data-id`, `data-date`) |
+| **Atributos de dados** | Usar `dataset` para armazenar IDs (`data-id`) |
 | **Classes** | Usar `classList.add()` / `classList.toggle()` para alternar estados |
 | **Eventos** | Usar `addEventListener()` delegado no container pai quando possível |
 | **Templates simples** | Permitir `innerHTML` apenas para fragments HTML curtos e controlados |
@@ -360,8 +412,8 @@ function createDayElement(date, events) {
 | Chave | Tipo | Conteúdo |
 |-------|------|----------|
 | `myCalendar_events` | JSON string | Array de eventos (cache do JSON Server) |
-| `myCalendar_currentView` | string | `"monthly"` \| `"weekly"` \| `"daily"` |
-| `myCalendar_currentDate` | string | Data ISO do centro da visualização atual |
+| `myCalendar_search` | string | Termo de busca persistido entre sessões |
+| `myCalendar_filter` | string | Categoria selecionada no filtro (`todas` ou valor de categoria) |
 
 ### 9.2 Módulo de Abstração (`storage.js`)
 
@@ -376,20 +428,20 @@ const Storage = {
     localStorage.setItem('myCalendar_events', JSON.stringify(events));
   },
 
-  getView() {
-    return localStorage.getItem('myCalendar_currentView') || 'monthly';
+  getSearch() {
+    return localStorage.getItem('myCalendar_search') || '';
   },
 
-  saveView(view) {
-    localStorage.setItem('myCalendar_currentView', view);
+  saveSearch(term) {
+    localStorage.setItem('myCalendar_search', term);
   },
 
-  getCurrentDate() {
-    return localStorage.getItem('myCalendar_currentDate') || new Date().toISOString().split('T')[0];
+  getFilter() {
+    return localStorage.getItem('myCalendar_filter') || 'todas';
   },
 
-  saveCurrentDate(date) {
-    localStorage.setItem('myCalendar_currentDate', date);
+  saveFilter(category) {
+    localStorage.setItem('myCalendar_filter', category);
   }
 };
 ```
@@ -397,17 +449,32 @@ const Storage = {
 ### 9.3 Fluxo de Sincronização
 
 ```
-Ao carregar a página:
+Ao carregar a listagem:
   1. Buscar eventos do JSON Server (GET /events)
   2. Salvar resultado no localStorage (cache)
-  3. Renderizar calendário
+  3. Renderizar cards aplicando busca e filtro salvos
 
-Ao criar/editar/excluir evento:
+Ao criar/editar/excluir/alternar conclusão de evento:
   1. Enviar requisição ao JSON Server (POST/PUT/DELETE)
   2. Receber resposta e atualizar localStorage
-  3. Re-renderizar calendário
+  3. Re-renderizar listagem ou redirecionar para a página principal
+
+No formulário (campo CEP):
+  1. Validar CEP com regex
+  2. Consultar a API ViaCEP via fetch
+  3. Preencher logradouro, cidade e UF automaticamente
 
 Se JSON Server indisponível:
   1. Ler dados do localStorage (modo offline)
   2. Renderizar com dados em cache
 ```
+
+---
+
+## 10. Páginas da Aplicação
+
+| Página | Descrição | Scripts |
+|--------|-----------|---------|
+| `index.html` | Listagem de eventos em cards com busca, filtro por categoria e controle de conclusão | `main.js`, `events.js`, `storage.js` |
+| `evento.html` | Formulário de criação/edição com validação (HTML nativo + regex) e consulta ViaCEP | `form.js`, `events.js`, `recurrence.js`, `storage.js` |
+| `estatisticas.html` | Resumo da agenda: total de eventos, por categoria, concluídos e pendentes | `stats.js`, `events.js`, `storage.js` |

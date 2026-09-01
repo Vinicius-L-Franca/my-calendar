@@ -7,7 +7,7 @@
 | **Autor** | Vinicius Liepienski de França |
 | **Projeto** | My Calendar — Agenda Pessoal Web |
 | **Data** | Agosto 2026 |
-| **Versão** | 1.0 |
+| **Versão** | 2.0 |
 
 ---
 
@@ -15,20 +15,22 @@
 
 ### Propósito
 
-My Calendar é uma aplicação web de calendário/agenda projetada para organização pessoal. O sistema permite ao usuário criar, visualizar, editar e excluir compromissos cominterface limpa inspirada no Google Calendar.
+My Calendar é uma aplicação web de agenda pessoal que permite ao usuário registrar, visualizar, editar e excluir seus compromissos de forma simples e organizada. Os eventos são exibidos como cards em uma interface limpa, com busca, filtro por categoria e controle de conclusão.
 
 ### Problema Resolvido
 
-Pessoas que precisam organizar compromissos pessoais (aulas, reuniões, lembretes, eventos recorrentes) frequentemente dependem de aplicativos pesados ou pouco personalizáveis. Falta uma solução leve, acessível via navegador, que permita gerenciar eventos com visualização flexível (mês/semana/dia), categorização por cores e recorrência simples — tudo sem necessidade de instalação.
+Pessoas que precisam organizar compromissos pessoais (aulas, reuniões, lembretes, eventos recorrentes) frequentemente dependem de aplicativos pesados ou pouco personalizáveis. Falta uma solução leve, acessível via navegador, que permita gerenciar eventos como uma lista de cards simples, com categorização por cores, busca rápida e recorrência — tudo sem necessidade de instalação ou cadastro.
 
 ### Solução
 
-Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como backend simulado, e oferece ao usuário:
+Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como backend simulado e oferece ao usuário:
 
-- Três visões de calendário (mensal, semanal, diária)
-- Categorização de eventos com cores
-- Recorrência simples (diário, semanal, mensal, anual)
-- Drag-and-drop para reagendamento rápido
+- Lista de eventos em cards, em layout responsivo (grade)
+- Busca por texto (título e descrição) e filtro por categoria
+- Marcador de "concluído" para controle de tarefas
+- Recorrência (diário, semanal, mensal, anual)
+- Formulário com validação (HTML nativo + regex) e busca de endereço via ViaCEP
+- Página de estatísticas com resumo da agenda
 - Persistência via API REST + cache local
 
 ---
@@ -37,7 +39,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 
 | Ator | Descrição |
 |------|-----------|
-| **Usuário** | Pessoa que acessa a aplicação para criar, visualizar, editar e excluir eventos na agenda pessoal. É o único tipo de ator na versão 1.0 (sem autenticação). |
+| **Usuário** | Pessoa que acessa a aplicação para criar, visualizar, buscar, filtrar, editar e excluir eventos na agenda pessoal. É o único tipo de ator na versão 2.0 (sem autenticação). |
 
 ---
 
@@ -46,7 +48,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 ### US-01: Criar evento
 
 **Como** Usuário,
-**eu quero** criar um novo evento informando título, data, hora de início, hora de fim, descrição e categoria,
+**eu quero** criar um novo evento informando título, data, hora de início, hora de fim, descrição, categoria e recorrência,
 **para que** eu possa registrar um compromisso na minha agenda.
 
 **Critérios de Aceite:**
@@ -54,21 +56,21 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 - Data e horas são obrigatórias
 - Hora fim deve ser posterior à hora início
 - Categoria deve ser selecionada entre as opções disponíveis
-- Evento aparece imediatamente no calendário após criação
+- Evento aparece na listagem imediatamente após criação
 
 ---
 
 ### US-02: Editar evento
 
 **Como** Usuário,
-**eu quero** editar um evento existente clicando nele,
+**eu quero** editar um evento existente,
 **para que** eu possa corrigir ou atualizar suas informações.
 
 **Critérios de Aceite:**
-- Ao clicar no evento, abre-se o formulário preenchido com os dados atuais
+- Ao clicar no card do evento, abre-se o formulário preenchido com os dados atuais
 - Todos os campos podem ser alterados
 - Alterações são salvas no JSON Server e no localStorage
-- Evento atualizado é exibido corretamente no calendário
+- Card do evento é atualizado corretamente na listagem
 
 ---
 
@@ -82,96 +84,79 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 - Botão de exclusão disponível no formulário de edição
 - Exibida mensagem de confirmação antes de excluir
 - Evento é removido do JSON Server e do localStorage
-- Evento desaparece do calendário após confirmação
+- Card desaparece da listagem após confirmação
 
 ---
 
-### US-04: Visualizar eventos em mensal
+### US-04: Listar eventos em cards
 
 **Como** Usuário,
-**eu quero** ver meus eventos em uma visão mensal (grid de dias),
-**para que** eu possa planejar meu mês de forma ampla.
+**eu quero** ver meus eventos organizados como cards em uma grade responsiva,
+**para que** eu consiga visualizar todos os meus compromissos de forma clara e rápida.
 
 **Critérios de Aceite:**
-- Exibido grid com todos os dias do mês atual
-- Eventos aparecem como fichas coloridas (conforme categoria) dentro dos dias
-- Dia atual destacado visualmente
-- Navegação entre meses disponível
+- Cards exibidos em grade (adaptável a mobile e desktop)
+- Cada card mostra: título, data, horário, categoria e descrição
+- Eventos concluídos recebem destaque visual diferenciado
+- Nova listagem ordenada por data (próximos eventos primeiro)
 
 ---
 
-### US-05: Visualizar eventos em semanal
+### US-05: Buscar eventos por texto
 
 **Como** Usuário,
-**eu quero** ver meus eventos em uma visão semanal (7 colunas com faixas horárias),
-**para que** eu possa organizar minha rotina de cada semana com mais detalhe.
+**eu quero** buscar eventos digitando um termo no campo de busca,
+**para que** eu encontre rapidamente um compromisso pelo título ou descrição.
 
 **Critérios de Aceite:**
-- 7 colunas representando dom–sab
-- Faixas horárias das 6h às 22h
-- Eventos posicionados conforme hora de início e duração
-- Dia atual destacado
-- Navegação entre semanas disponível
+- Campo de busca disponível no topo da página principal
+- Busca filtra em tempo real por título e descrição (case-insensitive)
+- Ao limpar o campo, todos os eventos são exibidos novamente
 
 ---
 
-### US-06: Visualizar eventos em diária
+### US-06: Filtrar eventos por categoria
 
 **Como** Usuário,
-**eu quero** ver meus eventos em uma visão diária (coluna única com faixas horárias),
-**para que** eu possa ver os detalhes do dia atual com precisão.
+**eu quero** filtrar os eventos por categoria,
+**para que** eu possa visualizar apenas os compromissos de interesse (ex: só trabalho ou só estudos).
 
 **Critérios de Aceite:**
-- Coluna única com faixas horárias das 6h às 22h
-- Eventos posicionados conforme hora de início e duração
-- Data exibida no topo
-- Navegação entre dias disponível
+- Filtro por categoria disponível na página principal (select ou chips)
+- Opções: Trabalho, Pessoal, Saúde, Estudos, Outro e "Todas"
+- Ao selecionar uma categoria, apenas os eventos dela são exibidos
+- Filtro combinado com a busca por texto
 
 ---
 
-### US-07: Navegar entre períodos
+### US-07: Marcar evento como concluído
 
 **Como** Usuário,
-**eu quero** navegar entre meses, semanas e dias usando botões de seta,
-**para que** eu possa visualizar compromissos passados e futuros.
+**eu quero** marcar um evento como concluído,
+**para que** eu possa acompanhar o progresso das minhas tarefas.
 
 **Critérios de Aceite:**
-- Botões de seta (anterior/próximo) em todas as visões
-- Na visão mensal: navega mês a mês
-- Na visão semanal: navega semana a semana
-- Na visão diária: navega dia a dia
-- Período atual exibido no topo (ex: "Agosto 2026", "18–24 Ago 2026", "25 Ago 2026")
+- Checkbox/controle de conclusão disponível no card do evento
+- Evento concluído é persistido no JSON Server e no localStorage
+- Card concluído recebe estilo visual diferenciado (ex: opacidade reduzida)
 
 ---
 
-### US-08: Voltar à data atual
-
-**Como** Usuário,
-**eu quero** um botão "Hoje" para retornar rapidamente à data atual,
-**para que** eu não precise navegar manualmente até o dia de hoje.
-
-**Critérios de Aceite:**
-- Botão "Hoje" visível em todas as visões
-- Ao clicar, a visualização centraliza na data atual
-- Dia atual é destacado após a navegação
-
----
-
-### US-09: Categorizar eventos
+### US-08: Categorizar eventos
 
 **Como** Usuário,
 **eu quero** atribuir uma categoria (cor) aos meus eventos ao criá-los ou editá-los,
-**para que** eu possa identificá-los visualmente no calendário.
+**para que** eu possa identificá-los visualmente na listagem.
 
 **Critérios de Aceite:**
 - Categorias disponíveis: Trabalho (azul), Pessoal (verde), Saúde (vermelho), Estudos (roxo), Outro (cinza)
 - Categoria é selecionada via componente select no formulário
-- Eventos exibidos com a cor da categoria no calendário
+- Cards exibem a cor da categoria (badge ou destaque)
 - Campo é obrigatório
 
 ---
 
-### US-10: Criar eventos recorrentes
+### US-09: Criar eventos recorrentes
 
 **Como** Usuário,
 **eu quero** criar eventos que se repetem automaticamente (diário, semanal, mensal ou anual) com data fim,
@@ -185,17 +170,31 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 
 ---
 
-### US-11: Arrastar eventos (Drag-and-drop)
+### US-10: Buscar endereço via CEP
 
 **Como** Usuário,
-**eu quero** arrastar um evento para reagendá-lo em outro dia ou horário nas visões semanal e diária,
-**para que** eu possa reorganizar minha agenda de forma rápida e intuitiva.
+**eu quero** informar um CEP no formulário e obter o endereço automaticamente,
+**para que** eu possa registrar o local do evento sem digitar todos os dados manualmente.
 
 **Critérios de Aceite:**
-- Eventos são arrastáveis (draggable) nas visões semanal e diária
-- Ao soltar o evento, a data e/ou hora são atualizadas automaticamente
-- Alteração é persistida no JSON Server e no localStorage
-- Feedback visual durante o arraste (sombra, opacidade)
+- Campo CEP no formulário de evento (opcional)
+- Ao sair do campo (blur), a aplicação consulta a API ViaCEP
+- Logradouro, bairro, cidade e UF são preenchidos automaticamente
+- Em caso de CEP inválido, exibida mensagem de erro amigável
+
+---
+
+### US-11: Visualizar estatísticas
+
+**Como** Usuário,
+**eu quero** ver estatísticas da minha agenda,
+**para que** eu possa entender minha rotina e quantidade de compromissos.
+
+**Critérios de Aceite:**
+- Acesso à página de estatísticas pelo menu de navegação
+- Exibe total de eventos cadastrados
+- Exibe total de eventos por categoria
+- Exibe quantidade de eventos concluídos e pendentes
 
 ---
 
@@ -207,7 +206,9 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 | **RN-02** | A hora de fim do evento deve ser sempre posterior à hora de início. |
 | **RN-03** | Quando um evento é configurado como recorrente, o campo "data fim da recorrência" torna-se obrigatório e deve ser posterior à data do evento. |
 | **RN-04** | A exclusão de um evento recorrente oferece duas opções: excluir "apenas esta ocorrência" ou "esta e todas as ocorrências futuras". |
-| **RN-05** | Formatos obrigatórios: data no padrão AAAA-MM-DD; hora no padrão HH:MM (formato 24 horas). |
+| **RN-05** | Formatos obrigatórios: data no padrão AAAA-MM-DD; hora no padrão HH:MM (formato 24 horas); CEP no padrão 00000-000. |
 | **RN-06** | As categorias disponíveis são pré-definidas e não editáveis: Trabalho, Pessoal, Saúde, Estudos, Outro. |
 | **RN-07** | Eventos recorrentes geram instâncias individualmente editáveis. A edição de uma instância não afeta as demais. |
-| **RN-08** | A aplicação funciona sem autenticação. Todos os dados são armazenados localmente e no JSON Server simulado. |
+| **RN-08** | O endereço do evento é opcional e, quando informado por CEP, é preenchido pela API ViaCEP (logradouro, bairro, cidade e UF). |
+| **RN-09** | O campo "concluído" indica se o evento foi realizado. A alternância não altera os demais dados do evento. |
+| **RN-10** | A aplicação funciona sem autenticação. Todos os dados são armazenados localmente e no JSON Server simulado. |
