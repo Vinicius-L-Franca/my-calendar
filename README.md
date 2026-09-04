@@ -12,7 +12,7 @@ My Calendar é uma aplicação web de agenda pessoal que permite ao usuário cri
 
 ## Prototipação no Figma
 
-> Link para o projeto no Figma (a definir)
+https://stitch.withgoogle.com/projects/6869356017674285767
 
 ---
 
