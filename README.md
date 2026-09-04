@@ -24,16 +24,39 @@ https://stitch.withgoogle.com/projects/6869356017674285767
 
 ## Framework CSS
 
-CSS Vanilla (sem framework externo). Design Tokens implementados via CSS Variables.
+**Bootstrap v5.3.8** (via CDN).
 
----
+### Por que Bootstrap?
 
-## Dependências
+| Critério | Análise |
+|----------|---------|
+| **Responsividade** | Sistema de grid pronto (`container`, `row`, `col`) com breakpoints que suporta a abordagem mobile-first, eliminando a necessidade de media queries manuais na maior parte do layout |
+| **Componentes prontos** | Cards, navbar, formulários, badges, modal e collapse disponíveis de fábrica, cobrindo as páginas de listagem, formulário e estatísticas |
+| **Interatividade** | Componentes JavaScript do framework (modal, collapse, tooltip) prontos para uso |
+| **Comunidade/atividade** | Projeto muito ativo no GitHub (~174 mil estrelas, 360 contribuidores), com documentação extensa e atualizada em português |
+| **Adoção** | Padrão de mercado, facilita manutenção e integração com IA para geração de código |
 
-| Dependência | Descrição | Status |
-|-------------|-----------|--------|
-| [JSON Server](https://github.com/typicode/json-server) | API REST fake para simulação de backend | A instalar |
-| [ViaCEP](https://viacep.com.br/) | API pública de consulta de endereço por CEP (sem necessidade de chave) | Sem instalação |
+## Tecnologias e Dependências
+
+| Tecnologia | Versão | Tipo | Status |
+|------------|--------|------|--------|
+| [Bootstrap](https://getbootstrap.com/) | v5.3.8 | Framework CSS (via CDN) | Sem instalação |
+| [JSON Server](https://github.com/typicode/json-server) | v1.x | API fake (backend simulado) | A instalar |
+| [ViaCEP](https://viacep.com.br/) | v1 | API pública (consulta de CEP) | Sem instalação |
+
+### Escolha da API Pública — ViaCEP
+
+**Por que ViaCEP?**
+
+O projeto é uma agenda pessoal e o formulário de eventos precisa registrar o **local** de cada compromisso. A API ViaCEP permite que o usuário informe apenas o CEP e o sistema preencha automaticamente logradouro, bairro, cidade e UF, economizando digitação e reduzindo erros.
+
+Critérios avaliados:
+
+- **Sem chave de API/token** — uso gratuito e simplificado, sem etapa de cadastro
+- **Resposta em JSON** — fácil de consumir com `fetch`/`async/await`
+- **Relevância ao domínio** — agrega valor direto à funcionalidade de "local do evento"
+- **Documentação simples** — endpoint único e previsível: `GET https://viacep.com.br/ws/{cep}/json/`
+- **Tratamento de erros** — a API retorna `"erro": true` para CEPs inexistentes, permitindo exibir mensagens amigáveis (atende ao ID 24 dos RAs)
 
 ---
 
@@ -114,13 +137,11 @@ my-calendar/
 ├── index.html                # (a criar) Lista de eventos em cards
 ├── evento.html               # (a criar) Formulário de criação/edição
 ├── estatisticas.html         # (a criar) Página de estatísticas
-├── css/                      # (a criar)
-│   ├── reset.css
+├── css/                      # (a criar) Sobrescritas e extensões do Bootstrap
 │   ├── variables.css
 │   ├── layout.css
 │   ├── cards.css
-│   ├── form.css
-│   └── responsive.css
+│   └── form.css
 ├── js/                       # (a criar)
 │   ├── main.js
 │   ├── events.js
@@ -158,11 +179,14 @@ npm install --save-dev json-server
 npx json-server --watch db/db.json --port 3000
 ```
 
+**Bootstrap:** carregado via CDN diretamente nos arquivos HTML — não requer instalação npm.
+
 ### Execução
 
 1. Em outro terminal, abra o arquivo `index.html` no navegador ou use um servidor local (ex: Live Server do VS Code)
 2. A aplicação se comunica com o JSON Server em `http://localhost:3000`
 3. A página `evento.html` consulta a API ViaCEP (https://viacep.com.br) ao informar um CEP
+4. O Bootstrap é carregado via CDN em todas as páginas (CSS e JS do framework)
 
 > **Nota:** As páginas `index.html`, `evento.html`, `estatisticas.html`, as pastas `css/`, `js/`, `db/` e os arquivos da aplicação serão criados durante a implementação. Atualmente o repositório contém apenas a documentação (`docs/`).
 

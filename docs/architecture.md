@@ -2,7 +2,7 @@
 
 ## 1. Visão Geral
 
-My Calendar é uma aplicação web construída com HTML5, CSS3 e JavaScript vanilla, sem dependência de frameworks frontend. O backend é simulado via JSON Server, o localStorage é utilizado como cache local dos dados e a API pública ViaCEP é consumida para completar endereços a partir do CEP.
+My Calendar é uma aplicação web construída com HTML5, JavaScript vanilla e o framework CSS **Bootstrap v5.3.8** para o layout responsivo e componentes. O backend é simulado via JSON Server, o localStorage é utilizado como cache local dos dados e a API pública ViaCEP é consumida para completar endereços a partir do CEP.
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -38,23 +38,34 @@ My Calendar é uma aplicação web construída com HTML5, CSS3 e JavaScript vani
 
 ## 2. Stack Tecnológica
 
-| Camada | Tecnologia | Justificativa |
-|--------|------------|---------------|
-| **Estrutura** | HTML5 | 3 páginas distintas: listagem, formulário e estatísticas |
-| **Estilização** | CSS3 (vanilla) | Design Tokens via CSS Variables, layout com Flexbox/Grid |
-| **Lógica** | JavaScript ES6+ (vanilla) | Módulos, classes, fetch API, destructuring |
-| **Backend Fake** | JSON Server | Simulação de API REST com CRUD completo |
-| **Persistência** | localStorage | Cache offline e dados de preferências do usuário |
-| **API Pública** | ViaCEP | Consulta assíncrona de endereço a partir do CEP |
-| **Comunicação** | fetch / async/await | Requisições assíncronas à API REST e ao ViaCEP |
+| Camada | Tecnologia | Versão | Justificativa |
+|--------|------------|--------|---------------|
+| **Estrutura** | HTML5 | — | 3 páginas distintas: listagem, formulário e estatísticas |
+| **Framework CSS** | Bootstrap | v5.3.8 | Grid responsivo (mobile-first), componentes prontos (navbar, card, badge, modal, form) e JS do framework |
+| **Estilização complementar** | CSS3 (vanilla) | — | Sobrescritas e extensões dos Design Tokens sobre as variáveis do Bootstrap (`css/variables.css` etc.) |
+| **Lógica** | JavaScript ES6+ (vanilla) | — | Módulos, classes, fetch API, destructuring |
+| **Backend Fake** | JSON Server | v1.x | Simulação de API REST com CRUD completo |
+| **Persistência** | localStorage | — | Cache offline e dados de preferências do usuário |
+| **API Pública** | ViaCEP | v1 | Consulta assíncrona de endereço a partir do CEP |
+| **Comunicação** | fetch / async/await | — | Requisições assíncronas à API REST e ao ViaCEP |
+
+### Mapa de Versões das Tecnologias
+
+| Tecnologia | Versão exata | Registro |
+|------------|--------------|----------|
+| Bootstrap | v5.3.8 | Carregado via CDN em todas as páginas HTML |
+| JSON Server | v1.x (determinada no `npm install`) | `package.json` (`devDependencies`) |
+| ViaCEP | v1 | API pública, consumida via endpoint `/ws/{cep}/json/` sem registro |
 
 ---
 
 ## 3. Design Tokens (CSS Variables)
 
-Os Design Tokens definem a linguagem visual padronizada da aplicação. Todos os valores visuais são centralizados em variáveis CSS no arquivo `css/variables.css`.
+Os Design Tokens definem a linguagem visual padronizada da aplicação. Como o layout é construído com **Bootstrap v5.3.8**, os tokens da aplicação sobrescrevem as variáveis CSS do framework (`--bs-*`) no arquivo `css/variables.css`, garantindo consistência visual em todos os componentes do Bootstrap (navbar, cards, badges, forms e modais).
 
 ### 3.1 Cores
+
+Os tokens de cor mapeiam a paleta da aplicação para as variáveis do Bootstrap:
 
 ```css
 :root {
@@ -77,6 +88,15 @@ Os Design Tokens definem a linguagem visual padronizada da aplicação. Todos os
   --color-studies: #8E24AA;     /* Roxo - Estudos */
   --color-other: #616161;       /* Cinza - Outro */
 }
+
+/* Mapeamento para as variáveis do Bootstrap v5.3.8 */
+:root {
+  --bs-primary: #4285F4;
+  --bs-body-bg: #FFFFFF;
+  --bs-body-color: #202124;
+  --bs-border-color: #DADCE0;
+  --bs-border-radius: 8px;
+}
 ```
 
 ### 3.2 Tipografia
@@ -93,6 +113,11 @@ Os Design Tokens definem a linguagem visual padronizada da aplicação. Todos os
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
+}
+
+/* Mapeamento para o Bootstrap */
+:root {
+  --bs-font-sans-serif: var(--font-family);
 }
 ```
 
@@ -328,16 +353,14 @@ Content-Type: application/json
 
 ```
 my-calendar/
-├── index.html                # Página principal: listagem de eventos em cards
-├── evento.html               # Formulário de criação/edição de eventos
-├── estatisticas.html         # Página de estatísticas da agenda
+├── index.html                # Página principal: listagem de eventos em cards (Bootstrap via CDN)
+├── evento.html               # Formulário de criação/edição de eventos (Bootstrap via CDN)
+├── estatisticas.html         # Página de estatísticas da agenda (Bootstrap via CDN)
 ├── css/
-│   ├── reset.css             # Reset do CSS (normalize)
-│   ├── variables.css         # Design Tokens (CSS Variables)
-│   ├── layout.css            # Header, navegação e grade responsiva
-│   ├── cards.css             # Estilos dos cards de eventos
-│   ├── form.css              # Estilos de formulários e estados de validação
-│   └── responsive.css        # Media queries (mobile-first)
+│   ├── variables.css         # Design Tokens: sobrescreve variáveis do Bootstrap
+│   ├── layout.css            # Ajustes de header, navegação e espaçamentos
+│   ├── cards.css             # Extensões dos cards do Bootstrap para eventos
+│   └── form.css              # Ajustes de formulários e estados de validação
 ├── js/
 │   ├── main.js               # Inicialização, busca e filtro por categoria
 │   ├── events.js             # CRUD de eventos (fetch + localStorage)
@@ -352,42 +375,52 @@ my-calendar/
     └── architecture.md       # Este documento
 ```
 
----
+> **Nota:** O `reset.css` foi substituído pelo `_reboot` nativo do Bootstrap v5.3.8. O `responsive.css` foi suprimido porque o grid responsivo é entregue pelo Bootstrap.
 
-## 8. Padrões de Manipulação do DOM
 
-Todos os elementos visuais da listagem são criados dinamicamente via JavaScript, sem uso de `innerHTML` para templates complexos.
 
-### 8.1 Criação de Cards
+## 8. Padrões de Manipulação do DOM com Bootstrap
+
+Todos os elementos visuais da listagem são criados dinamicamente via JavaScript, reutilizando as classes e componentes do **Bootstrap v5.3.8** (`card`, `badge`, `modal`, utilitários de espaçamento e cor).
+
+### 8.1 Criação de Cards (componente `.card` do Bootstrap)
 
 ```javascript
 function createEventCard(event) {
   const cardEl = document.createElement('article');
-  cardEl.classList.add('event-card', `category-${event.categoria}`);
+  cardEl.className = 'card event-card h-100';
   if (event.concluido) cardEl.classList.add('event-card--done');
   cardEl.dataset.eventId = event.id;
 
+  const bodyEl = document.createElement('div');
+  bodyEl.className = 'card-body d-flex flex-column gap-1';
+  cardEl.appendChild(bodyEl);
+
+  const headerEl = document.createElement('div');
+  headerEl.className = 'd-flex justify-content-between align-items-start';
+  bodyEl.appendChild(headerEl);
+
   const titleEl = document.createElement('h3');
-  titleEl.classList.add('event-card__title');
+  titleEl.className = 'card-title h6 mb-0';
   titleEl.textContent = event.titulo;
-  cardEl.appendChild(titleEl);
+  headerEl.appendChild(titleEl);
+
+  const badgeEl = document.createElement('span');
+  badgeEl.className = 'badge text-bg-' + CATEGORIAS[event.categoria].badge;
+  badgeEl.textContent = CATEGORIAS[event.categoria].label;
+  headerEl.appendChild(badgeEl);
 
   const metaEl = document.createElement('p');
-  metaEl.classList.add('event-card__meta');
+  metaEl.className = 'card-text text-body-secondary small';
   metaEl.textContent = `${formatDate(event.data)} · ${event.horaInicio} – ${event.horaFim}`;
-  cardEl.appendChild(metaEl);
+  bodyEl.appendChild(metaEl);
 
   if (event.descricao) {
     const descEl = document.createElement('p');
-    descEl.classList.add('event-card__description');
+    descEl.className = 'card-text small';
     descEl.textContent = event.descricao;
-    cardEl.appendChild(descEl);
+    bodyEl.appendChild(descEl);
   }
-
-  const badgeEl = document.createElement('span');
-  badgeEl.classList.add('event-card__badge');
-  badgeEl.textContent = CATEGORIAS[event.categoria].label;
-  cardEl.appendChild(badgeEl);
 
   return cardEl;
 }
@@ -397,9 +430,10 @@ function createEventCard(event) {
 
 | Padrão | Regra |
 |--------|-------|
-| **Criação** | Usar `document.createElement()` para todos os elementos dinâmicos |
-| **Atributos de dados** | Usar `dataset` para armazenar IDs (`data-id`) |
-| **Classes** | Usar `classList.add()` / `classList.toggle()` para alternar estados |
+| **Criação** | Usar `document.createElement()` somado às classes do Bootstrap (`card`, `badge`, `modal`, utilitários) |
+| **Atributos de dados** | Usar `dataset` para armazenar IDs (`data-id`) e classes Bootstrap `data-bs-*` para componentes JS do framework |
+| **Grid** | Usar as classes responsivas do Bootstrap (`row`, `col-*`, `g-*`) em vez de media queries manuais |
+| **Componentes JS** | Modal, navbar e collapse usam os componentes nativos do Bootstrap (ex: `data-bs-toggle`) |
 | **Eventos** | Usar `addEventListener()` delegado no container pai quando possível |
 | **Templates simples** | Permitir `innerHTML` apenas para fragments HTML curtos e controlados |
 
@@ -472,6 +506,8 @@ Se JSON Server indisponível:
 ---
 
 ## 10. Páginas da Aplicação
+
+Todas as páginas carregam o **Bootstrap v5.3.8** via CDN (CSS e bundle JS do framework) e o arquivo `css/variables.css` com os Design Tokens.
 
 | Página | Descrição | Scripts |
 |--------|-----------|---------|

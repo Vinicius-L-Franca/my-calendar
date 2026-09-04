@@ -1,13 +1,13 @@
-# PRD — My Calendar
+    # PRD — My Calendar
 
 ## 1. Identificação
 
-| Campo | Valor |
-|-------|-------|
-| **Autor** | Vinicius Liepienski de França |
+| Campo       | Valor                            |
+| ----------- | -------------------------------- |
+| **Autor**   | Vinicius Liepienski de França    |
 | **Projeto** | My Calendar — Agenda Pessoal Web |
-| **Data** | Agosto 2026 |
-| **Versão** | 2.0 |
+| **Data**    | Agosto 2026                      |
+| **Versão**  | 2.0                              |
 
 ---
 
@@ -37,8 +37,8 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 
 ## 3. Atores do Sistema
 
-| Ator | Descrição |
-|------|-----------|
+| Ator        | Descrição                                                                                                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Usuário** | Pessoa que acessa a aplicação para criar, visualizar, buscar, filtrar, editar e excluir eventos na agenda pessoal. É o único tipo de ator na versão 2.0 (sem autenticação). |
 
 ---
@@ -52,6 +52,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu possa registrar um compromisso na minha agenda.
 
 **Critérios de Aceite:**
+
 - Título é obrigatório (3–100 caracteres)
 - Data e horas são obrigatórias
 - Hora fim deve ser posterior à hora início
@@ -67,6 +68,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu possa corrigir ou atualizar suas informações.
 
 **Critérios de Aceite:**
+
 - Ao clicar no card do evento, abre-se o formulário preenchido com os dados atuais
 - Todos os campos podem ser alterados
 - Alterações são salvas no JSON Server e no localStorage
@@ -81,6 +83,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu possa manter minha agenda organizada e sem compromissos obsoletos.
 
 **Critérios de Aceite:**
+
 - Botão de exclusão disponível no formulário de edição
 - Exibida mensagem de confirmação antes de excluir
 - Evento é removido do JSON Server e do localStorage
@@ -95,6 +98,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu consiga visualizar todos os meus compromissos de forma clara e rápida.
 
 **Critérios de Aceite:**
+
 - Cards exibidos em grade (adaptável a mobile e desktop)
 - Cada card mostra: título, data, horário, categoria e descrição
 - Eventos concluídos recebem destaque visual diferenciado
@@ -109,6 +113,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu encontre rapidamente um compromisso pelo título ou descrição.
 
 **Critérios de Aceite:**
+
 - Campo de busca disponível no topo da página principal
 - Busca filtra em tempo real por título e descrição (case-insensitive)
 - Ao limpar o campo, todos os eventos são exibidos novamente
@@ -122,6 +127,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu possa visualizar apenas os compromissos de interesse (ex: só trabalho ou só estudos).
 
 **Critérios de Aceite:**
+
 - Filtro por categoria disponível na página principal (select ou chips)
 - Opções: Trabalho, Pessoal, Saúde, Estudos, Outro e "Todas"
 - Ao selecionar uma categoria, apenas os eventos dela são exibidos
@@ -136,6 +142,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu possa acompanhar o progresso das minhas tarefas.
 
 **Critérios de Aceite:**
+
 - Checkbox/controle de conclusão disponível no card do evento
 - Evento concluído é persistido no JSON Server e no localStorage
 - Card concluído recebe estilo visual diferenciado (ex: opacidade reduzida)
@@ -149,6 +156,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu possa identificá-los visualmente na listagem.
 
 **Critérios de Aceite:**
+
 - Categorias disponíveis: Trabalho (azul), Pessoal (verde), Saúde (vermelho), Estudos (roxo), Outro (cinza)
 - Categoria é selecionada via componente select no formulário
 - Cards exibem a cor da categoria (badge ou destaque)
@@ -163,6 +171,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu não precise criar manualmente cada ocorrência de um compromisso recorrente.
 
 **Critérios de Aceite:**
+
 - Opções de recorrência: Nenhum, Diário, Semanal, Mensal, Anual
 - Campo "data fim da recorrência" aparece apenas quando recorrência ≠ Nenhum
 - Ao salvar, o sistema gera instâncias futuras do evento até a data fim
@@ -177,6 +186,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu possa registrar o local do evento sem digitar todos os dados manualmente.
 
 **Critérios de Aceite:**
+
 - Campo CEP no formulário de evento (opcional)
 - Ao sair do campo (blur), a aplicação consulta a API ViaCEP
 - Logradouro, bairro, cidade e UF são preenchidos automaticamente
@@ -191,6 +201,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 **para que** eu possa entender minha rotina e quantidade de compromissos.
 
 **Critérios de Aceite:**
+
 - Acesso à página de estatísticas pelo menu de navegação
 - Exibe total de eventos cadastrados
 - Exibe total de eventos por categoria
@@ -200,15 +211,15 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 
 ## 5. Regras de Negócio
 
-| Código | Regra |
-|--------|-------|
-| **RN-01** | O título do evento é obrigatório, com mínimo de 3 caracteres e máximo de 100 caracteres. |
-| **RN-02** | A hora de fim do evento deve ser sempre posterior à hora de início. |
+| Código    | Regra                                                                                                                                         |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **RN-01** | O título do evento é obrigatório, com mínimo de 3 caracteres e máximo de 100 caracteres.                                                      |
+| **RN-02** | A hora de fim do evento deve ser sempre posterior à hora de início.                                                                           |
 | **RN-03** | Quando um evento é configurado como recorrente, o campo "data fim da recorrência" torna-se obrigatório e deve ser posterior à data do evento. |
-| **RN-04** | A exclusão de um evento recorrente oferece duas opções: excluir "apenas esta ocorrência" ou "esta e todas as ocorrências futuras". |
-| **RN-05** | Formatos obrigatórios: data no padrão AAAA-MM-DD; hora no padrão HH:MM (formato 24 horas); CEP no padrão 00000-000. |
-| **RN-06** | As categorias disponíveis são pré-definidas e não editáveis: Trabalho, Pessoal, Saúde, Estudos, Outro. |
-| **RN-07** | Eventos recorrentes geram instâncias individualmente editáveis. A edição de uma instância não afeta as demais. |
-| **RN-08** | O endereço do evento é opcional e, quando informado por CEP, é preenchido pela API ViaCEP (logradouro, bairro, cidade e UF). |
-| **RN-09** | O campo "concluído" indica se o evento foi realizado. A alternância não altera os demais dados do evento. |
-| **RN-10** | A aplicação funciona sem autenticação. Todos os dados são armazenados localmente e no JSON Server simulado. |
+| **RN-04** | A exclusão de um evento recorrente oferece duas opções: excluir "apenas esta ocorrência" ou "esta e todas as ocorrências futuras".            |
+| **RN-05** | Formatos obrigatórios: data no padrão AAAA-MM-DD; hora no padrão HH:MM (formato 24 horas); CEP no padrão 00000-000.                           |
+| **RN-06** | As categorias disponíveis são pré-definidas e não editáveis: Trabalho, Pessoal, Saúde, Estudos, Outro.                                        |
+| **RN-07** | Eventos recorrentes geram instâncias individualmente editáveis. A edição de uma instância não afeta as demais.                                |
+| **RN-08** | O endereço do evento é opcional e, quando informado por CEP, é preenchido pela API ViaCEP (logradouro, bairro, cidade e UF).                  |
+| **RN-09** | O campo "concluído" indica se o evento foi realizado. A alternância não altera os demais dados do evento.                                     |
+| **RN-10** | A aplicação funciona sem autenticação. Todos os dados são armazenados localmente e no JSON Server simulado.                                   |
