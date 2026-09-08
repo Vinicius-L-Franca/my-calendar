@@ -43,10 +43,11 @@ https://stitch.withgoogle.com/projects/6869356017674285767
 | [Bootstrap](https://getbootstrap.com/) | v5.3.8 | Framework CSS (via CDN) | Sem instalação |
 | [JSON Server](https://github.com/typicode/json-server) | v1.x | API fake (backend simulado) | A instalar |
 | [ViaCEP](https://viacep.com.br/) | v1 | API pública (consulta de CEP) | Sem instalação |
+| [Date Nager](https://date.nager.at/) | v3 | API pública (feriados nacionais) | Sem instalação |
 
-### Escolha da API Pública — ViaCEP
+### Escolha das APIs Públicas
 
-**Por que ViaCEP?**
+**ViaCEP — por quê?**
 
 O projeto é uma agenda pessoal e o formulário de eventos precisa registrar o **local** de cada compromisso. A API ViaCEP permite que o usuário informe apenas o CEP e o sistema preencha automaticamente logradouro, bairro, cidade e UF, economizando digitação e reduzindo erros.
 
@@ -57,6 +58,18 @@ Critérios avaliados:
 - **Relevância ao domínio** — agrega valor direto à funcionalidade de "local do evento"
 - **Documentação simples** — endpoint único e previsível: `GET https://viacep.com.br/ws/{cep}/json/`
 - **Tratamento de erros** — a API retorna `"erro": true` para CEPs inexistentes, permitindo exibir mensagens amigáveis (atende ao ID 24 dos RAs)
+
+**Date Nager — por quê?**
+
+Uma agenda pessoal ganha contexto quando o usuário sabe quais dias são feriados. A API Date Nager fornece os **feriados nacionais do Brasil** (nome em português) e permite que a aplicação exiba um badge "Feriado — {nome}" nos cards cuja data coincide com um feriado.
+
+Critérios avaliados:
+
+- **Sem chave de API/token** — uso gratuito, sem registro
+- **Dados em português** — o campo `localName` já retorna os nomes localizados (ex: "Dia da Independência", "Natal")
+- **Relevância ao domínio** — enriquece o calendário com dias não úteis
+- **Faixa de anos** — retorna feriados para qualquer ano, permitindo planejar com antecedência
+- **Baixo acoplamento** — consulta única por ano, com cache em localStorage e comportamento degradado caso a API falhe (atende ao ID 24 dos RAs)
 
 ---
 
@@ -78,6 +91,7 @@ Critérios avaliados:
 - [ ] Categorias com cores (Trabalho, Pessoal, Saúde, Estudos, Outro)
 - [ ] Recorrência (diária, semanal, mensal, anual)
 - [ ] Busca de endereço por CEP via API ViaCEP
+- [ ] Indicação de feriados nacionais nos cards (API Date Nager)
 - [ ] Página de estatísticas (total, por categoria, concluídos)
 - [ ] Validação de formulários (HTML nativo + regex)
 - [ ] Persistência via JSON Server + cache localStorage
@@ -186,7 +200,8 @@ npx json-server --watch db/db.json --port 3000
 1. Em outro terminal, abra o arquivo `index.html` no navegador ou use um servidor local (ex: Live Server do VS Code)
 2. A aplicação se comunica com o JSON Server em `http://localhost:3000`
 3. A página `evento.html` consulta a API ViaCEP (https://viacep.com.br) ao informar um CEP
-4. O Bootstrap é carregado via CDN em todas as páginas (CSS e JS do framework)
+4. A página `index.html` consulta a API Date Nager (https://date.nager.at) para indicar feriados nos cards
+5. O Bootstrap é carregado via CDN em todas as páginas (CSS e JS do framework)
 
 > **Nota:** As páginas `index.html`, `evento.html`, `estatisticas.html`, as pastas `css/`, `js/`, `db/` e os arquivos da aplicação serão criados durante a implementação. Atualmente o repositório contém apenas a documentação (`docs/`).
 

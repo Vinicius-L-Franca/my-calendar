@@ -30,6 +30,7 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 - Marcador de "concluído" para controle de tarefas
 - Recorrência (diário, semanal, mensal, anual)
 - Formulário com validação (HTML nativo + regex) e busca de endereço via ViaCEP
+- Indicação de feriados nacionais nos eventos (API Date Nager)
 - Página de estatísticas com resumo da agenda
 - Persistência via API REST + cache local
 
@@ -207,6 +208,17 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 - Exibe total de eventos por categoria
 - Exibe quantidade de eventos concluídos e pendentes
 
+### US-12: Visualizar feriados nacionais nos eventos
+
+**Como** Usuário,
+**eu quero** ver, no card do evento, um aviso quando a data coincidir com um feriado nacional,
+**para que** eu possa planejar minha agenda sabendo quais dias não são úteis.
+
+**Critérios de Aceite:**
+- Ao carregar a listagem, a aplicação consulta os feriados nacionais do ano do período visualizado
+- Quando a data de um evento coincide com um feriado, o card exibe um badge com o nome do feriado (ex: "Feriado — Carnaval")
+- A listagem continua funcionando normalmente mesmo se a API de feriados estiver indisponível (o card é exibido sem o badge)
+
 ---
 
 ## 5. Regras de Negócio
@@ -223,3 +235,4 @@ Uma aplicação web que roda inteiramente no navegador, utiliza JSON Server como
 | **RN-08** | O endereço do evento é opcional e, quando informado por CEP, é preenchido pela API ViaCEP (logradouro, bairro, cidade e UF).                  |
 | **RN-09** | O campo "concluído" indica se o evento foi realizado. A alternância não altera os demais dados do evento.                                     |
 | **RN-10** | A aplicação funciona sem autenticação. Todos os dados são armazenados localmente e no JSON Server simulado.                                   |
+| **RN-11** | A indicação de feriado é informativa e não editável. Quando a API de feriados está indisponível, os eventos são exibidos sem a indicação, sem prejuízo às demais funcionalidades. |

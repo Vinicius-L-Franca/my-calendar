@@ -31,6 +31,12 @@ My Calendar é uma aplicação web construída com HTML5, JavaScript vanilla e o
 │          │  ViaCEP (API pública)        │
 │          │  GET /ws/{cep}/json/          │
 │          └──────────────────────────────┘
+│
+│          ┌──────────────────────────────┐
+│          │  Date Nager (API pública)    │
+│          │  GET /api/v3/PublicHolidays/ │
+│          │      {ano}/BR                │
+│          └──────────────────────────────┘
 └──────────────────────────────────────────────┘
 ```
 
@@ -47,7 +53,8 @@ My Calendar é uma aplicação web construída com HTML5, JavaScript vanilla e o
 | **Backend Fake** | JSON Server | v1.x | Simulação de API REST com CRUD completo |
 | **Persistência** | localStorage | — | Cache offline e dados de preferências do usuário |
 | **API Pública** | ViaCEP | v1 | Consulta assíncrona de endereço a partir do CEP |
-| **Comunicação** | fetch / async/await | — | Requisições assíncronas à API REST e ao ViaCEP |
+| **API Pública** | Date Nager | v3 | Consulta assíncrona de feriados nacionais (Brasil) |
+| **Comunicação** | fetch / async/await | — | Requisições assíncronas à API REST, ao ViaCEP e ao Date Nager |
 
 ### Mapa de Versões das Tecnologias
 
@@ -56,6 +63,7 @@ My Calendar é uma aplicação web construída com HTML5, JavaScript vanilla e o
 | Bootstrap | v5.3.8 | Carregado via CDN em todas as páginas HTML |
 | JSON Server | v1.x (determinada no `npm install`) | `package.json` (`devDependencies`) |
 | ViaCEP | v1 | API pública, consumida via endpoint `/ws/{cep}/json/` sem registro |
+| Date Nager | v3 | API pública, consumida via endpoint `/api/v3/PublicHolidays/{ano}/{pais}` sem registro |
 
 ---
 
@@ -347,6 +355,46 @@ Content-Type: application/json
 
 **Tratamento de erro (CEP inexistente):** a API retorna o campo `"erro": true`. Para CEPs com formato inválido, a aplicação bloqueia a requisição na validação de formulário.
 
+### 6.3 Date Nager (API Pública — Feriados)
+
+**Endpoint de consulta:**
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `https://date.nager.at/api/v3/PublicHolidays/{ano}/BR` | Listar feriados nacionais do Brasil em um ano |
+
+**Resposta (200 OK):**
+```json
+[
+  {
+    "date": "2026-09-07",
+    "localName": "Dia da Independência",
+    "name": "Independence Day",
+    "countryCode": "BR",
+    "fixed": false,
+    "global": true,
+    "counties": null,
+    "launchYear": null,
+    "types": ["Public"]
+  },
+  {
+    "date": "2026-12-25",
+    "localName": "Natal",
+    "name": "Christmas Day",
+    "countryCode": "BR",
+    "fixed": false,
+    "global": true,
+    "counties": null,
+    "launchYear": null,
+    "types": ["Public"]
+  }
+]
+```
+
+**Uso na aplicação:** na página `index.html`, a listagem consulta os feriados do ano corrente, armazena em cache no localStorage e, para cada card cuja data do evento coincide com um feriado, exibe um badge com o nome em português (`localName`).
+
+**Tratamento de erro:** se a requisição falhar ou retornar status diferente de `200`, a listagem é renderizada normalmente sem as indicações de feriado (comportamento degradado), sem interromper as demais funcionalidades.
+
 ---
 
 ## 7. Estrutura de Pastas
@@ -422,9 +470,19 @@ function createEventCard(event) {
     bodyEl.appendChild(descEl);
   }
 
+  const holiday = FERIADOS.get(event.data);
+  if (holiday) {
+    const holidayEl = document.createElement('span');
+    holidayEl.className = 'badge text-bg-secondary';
+    holidayEl.textContent = `Feriado — ${holiday.localName}`;
+    bodyEl.appendChild(holidayEl);
+  }
+
   return cardEl;
 }
 ```
+
+**Nova linha**: o badge de feriado é exibido somente quando a data do evento coincide com uma data em `FERIADOS` (Mapa de `localDate → feriado`, obtido da API Date Nager e armazenado em cache).
 
 ### 8.2 Convenções
 
@@ -448,6 +506,7 @@ function createEventCard(event) {
 | `myCalendar_events` | JSON string | Array de eventos (cache do JSON Server) |
 | `myCalendar_search` | string | Termo de busca persistido entre sessões |
 | `myCalendar_filter` | string | Categoria selecionada no filtro (`todas` ou valor de categoria) |
+| `myCalendar_feriados` | JSON string | Cache dos feriados: objeto `{ ano, dados }` (Date Nager) |
 
 ### 9.2 Módulo de Abstração (`storage.js`)
 
@@ -476,6 +535,15 @@ const Storage = {
 
   saveFilter(category) {
     localStorage.setItem('myCalendar_filter', category);
+  },
+
+  getFeriados() {
+    const data = localStorage.getItem('myCalendar_feriados');
+    return data ? JSON.parse(data) : null;
+  },
+
+  saveFeriados(ano, feriados) {
+    localStorage.setItem('myCalendar_feriados', JSON.stringify({ ano, dados: feriados }));
   }
 };
 ```
@@ -486,7 +554,9 @@ const Storage = {
 Ao carregar a listagem:
   1. Buscar eventos do JSON Server (GET /events)
   2. Salvar resultado no localStorage (cache)
-  3. Renderizar cards aplicando busca e filtro salvos
+  3. Buscar feriados do ano corrente (GET /api/v3/PublicHolidays/{ano}/BR)
+  4. Salvar feriados no localStorage (cache: myCalendar_feriados)
+  5. Renderizar cards aplicando busca, filtro e badges de feriado
 
 Ao criar/editar/excluir/alternar conclusão de evento:
   1. Enviar requisição ao JSON Server (POST/PUT/DELETE)
@@ -501,6 +571,9 @@ No formulário (campo CEP):
 Se JSON Server indisponível:
   1. Ler dados do localStorage (modo offline)
   2. Renderizar com dados em cache
+
+Se API de feriados indisponível:
+  1. Renderizar a listagem sem os badges de feriado (comportamento degradado)
 ```
 
 ---
@@ -511,6 +584,6 @@ Todas as páginas carregam o **Bootstrap v5.3.8** via CDN (CSS e bundle JS do fr
 
 | Página | Descrição | Scripts |
 |--------|-----------|---------|
-| `index.html` | Listagem de eventos em cards com busca, filtro por categoria e controle de conclusão | `main.js`, `events.js`, `storage.js` |
+| `index.html` | Listagem de eventos em cards com busca, filtro por categoria, controle de conclusão e badges de feriados nacionais (Date Nager) | `main.js`, `events.js`, `storage.js` |
 | `evento.html` | Formulário de criação/edição com validação (HTML nativo + regex) e consulta ViaCEP | `form.js`, `events.js`, `recurrence.js`, `storage.js` |
 | `estatisticas.html` | Resumo da agenda: total de eventos, por categoria, concluídos e pendentes | `stats.js`, `events.js`, `storage.js` |
