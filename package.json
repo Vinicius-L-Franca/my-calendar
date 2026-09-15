@@ -1,0 +1,31 @@
+{
+  "name": "my-calendar",
+  "version": "1.0.0",
+  "description": "**Autor:** Vinicius Liepienski de França",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vinicius-L-Franca/my-calendar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Vinicius-L-Franca/my-calendar/issues"
+  },
+  "homepage": "https://github.com/Vinicius-L-Franca/my-calendar#readme",
+  "dependencies": {
+    "jquery": "^4.0.0",
+    "uuid": "^14.0.2"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
