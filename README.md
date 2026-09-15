@@ -28,22 +28,22 @@ https://stitch.withgoogle.com/projects/6869356017674285767
 
 ### Por que Bootstrap?
 
-| Critério | Análise |
-|----------|---------|
-| **Responsividade** | Sistema de grid pronto (`container`, `row`, `col`) com breakpoints que suporta a abordagem mobile-first, eliminando a necessidade de media queries manuais na maior parte do layout |
-| **Componentes prontos** | Cards, navbar, formulários, badges, modal e collapse disponíveis de fábrica, cobrindo as páginas de listagem, formulário e estatísticas |
-| **Interatividade** | Componentes JavaScript do framework (modal, collapse, tooltip) prontos para uso |
-| **Comunidade/atividade** | Projeto muito ativo no GitHub (~174 mil estrelas, 360 contribuidores), com documentação extensa e atualizada em português |
-| **Adoção** | Padrão de mercado, facilita manutenção e integração com IA para geração de código |
+| Critério                 | Análise                                                                                                                                                                             |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Responsividade**       | Sistema de grid pronto (`container`, `row`, `col`) com breakpoints que suporta a abordagem mobile-first, eliminando a necessidade de media queries manuais na maior parte do layout |
+| **Componentes prontos**  | Cards, navbar, formulários, badges, modal e collapse disponíveis de fábrica, cobrindo as páginas de listagem, formulário e estatísticas                                             |
+| **Interatividade**       | Componentes JavaScript do framework (modal, collapse, tooltip) prontos para uso                                                                                                     |
+| **Comunidade/atividade** | Projeto muito ativo no GitHub (~174 mil estrelas, 360 contribuidores), com documentação extensa e atualizada em português                                                           |
+| **Adoção**               | Padrão de mercado, facilita manutenção e integração com IA para geração de código                                                                                                   |
 
 ## Tecnologias e Dependências
 
-| Tecnologia | Versão | Tipo | Status |
-|------------|--------|------|--------|
-| [Bootstrap](https://getbootstrap.com/) | v5.3.8 | Framework CSS (via CDN) | Sem instalação |
-| [JSON Server](https://github.com/typicode/json-server) | v1.x | API fake (backend simulado) | A instalar |
-| [ViaCEP](https://viacep.com.br/) | v1 | API pública (consulta de CEP) | Sem instalação |
-| [Date Nager](https://date.nager.at/) | v3 | API pública (feriados nacionais) | Sem instalação |
+| Tecnologia                                             | Versão | Tipo                             | Status         |
+| ------------------------------------------------------ | ------ | -------------------------------- | -------------- |
+| [Bootstrap](https://getbootstrap.com/)                 | v5.3.8 | Framework CSS (via CDN)          | Sem instalação |
+| [JSON Server](https://github.com/typicode/json-server) | v1.x   | API fake (backend simulado)      | A instalar     |
+| [ViaCEP](https://viacep.com.br/)                       | v1     | API pública (consulta de CEP)    | Sem instalação |
+| [Date Nager](https://date.nager.at/)                   | v3     | API pública (feriados nacionais) | Sem instalação |
 
 ### Escolha das APIs Públicas
 
@@ -78,6 +78,16 @@ Critérios avaliados:
 > URL do GitHub Pages (a definir)
 
 ---
+
+## Checklist da Atividade 06
+
+- [x] Configurei minha identidade no Git
+- [x] Clonei o repositório do meu projeto
+- [x] Inicializei o NPM (package.json)
+- [x] Criei o .gitignore ignorando node_modules e .env
+- [x] Instalei jquery e uuid como dependências de produção
+- [x] Instalei gh-pages como dependência de desenvolvimento
+- [x] Fiz commit e push para a branch main
 
 ## Checklist de Funcionalidades
 
