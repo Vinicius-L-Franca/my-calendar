@@ -1,2 +1,4 @@
 /node_modules
 .env
+# config local do MCP Stitch (contém API key)
+opencode.json

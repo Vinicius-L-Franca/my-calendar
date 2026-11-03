@@ -24,7 +24,7 @@ https://stitch.withgoogle.com/projects/6869356017674285767
 
 ## Framework CSS
 
-**Bootstrap v5.3.8** (via CDN).
+**Bootstrap v5.3.8** (instalado via npm e carregado de `node_modules/`).
 
 ### Por que Bootstrap?
 
@@ -40,7 +40,8 @@ https://stitch.withgoogle.com/projects/6869356017674285767
 
 | Tecnologia                                             | Versão | Tipo                             | Status         |
 | ------------------------------------------------------ | ------ | -------------------------------- | -------------- |
-| [Bootstrap](https://getbootstrap.com/)                 | v5.3.8 | Framework CSS (via CDN)          | Sem instalação |
+| [Bootstrap](https://getbootstrap.com/)                 | v5.3.8 | Framework CSS (npm)              | Instalado      |
+| [Bootstrap Icons](https://icons.getbootstrap.com/)     | v1.13  | Biblioteca de ícones (npm)       | Instalado      |
 | [JSON Server](https://github.com/typicode/json-server) | v1.x   | API fake (backend simulado)      | A instalar     |
 | [ViaCEP](https://viacep.com.br/)                       | v1     | API pública (consulta de CEP)    | Sem instalação |
 | [Date Nager](https://date.nager.at/)                   | v3     | API pública (feriados nacionais) | Sem instalação |
@@ -196,6 +197,9 @@ my-calendar/
 git clone https://github.com/viniciusfranca/my-calendar.git
 cd my-calendar
 
+# Instalar as dependências (Bootstrap, Bootstrap Icons, jQuery, uuid, gh-pages)
+npm install
+
 # Instalar JSON Server como dependência de desenvolvimento
 npm install --save-dev json-server
 
@@ -203,7 +207,7 @@ npm install --save-dev json-server
 npx json-server --watch db/db.json --port 3000
 ```
 
-**Bootstrap:** carregado via CDN diretamente nos arquivos HTML — não requer instalação npm.
+**Bootstrap e Bootstrap Icons:** carregados localmente de `node_modules/` pelos arquivos HTML (sem CDN) — rode `npm install` antes de abrir as páginas. O projeto funciona off-line, exceto pelas fontes do Google Fonts, que caem para a fonte padrão do sistema.
 
 ### Execução
 
@@ -211,7 +215,7 @@ npx json-server --watch db/db.json --port 3000
 2. A aplicação se comunica com o JSON Server em `http://localhost:3000`
 3. A página `evento.html` consulta a API ViaCEP (https://viacep.com.br) ao informar um CEP
 4. A página `index.html` consulta a API Date Nager (https://date.nager.at) para indicar feriados nos cards
-5. O Bootstrap é carregado via CDN em todas as páginas (CSS e JS do framework)
+5. O Bootstrap é carregado de `node_modules/` em todas as páginas (CSS e JS do framework)
 
 > **Nota:** As páginas `index.html`, `evento.html`, `estatisticas.html`, as pastas `css/`, `js/`, `db/` e os arquivos da aplicação serão criados durante a implementação. Atualmente o repositório contém apenas a documentação (`docs/`).
 
