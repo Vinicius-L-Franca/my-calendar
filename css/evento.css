@@ -1,0 +1,50 @@
+:root {
+  --primary-color: #4285f4;
+  --primary-hover: #3367d6;
+  --bg-color: #f8f9fa;
+}
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-color);
+  color: #202124;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+.navbar-brand {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+.text-primary-custom {
+  color: var(--primary-color) !important;
+}
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+.text-primary {
+  color: var(--primary-color) !important;
+}
+.nav-link.active {
+  color: var(--primary-color) !important;
+  font-weight: 600;
+  border-bottom: 3px solid var(--primary-color);
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(66, 133, 244, 0.2);
+}
+.bottom-nav {
+  height: 60px;
+}
+.bottom-nav .nav-item {
+  font-size: 0.72rem;
+}

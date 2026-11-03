@@ -1,256 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="pt-BR"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>My Calendar - Início</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
-<!-- Bootstrap 5.3 CSS (local, via npm) -->
-<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<!-- Bootstrap Icons (local, via npm) -->
-<link href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet"/>
-<style>
-    :root {
-      --primary-color: #4285f4;
-      --primary-hover: #3367d6;
-      --bg-color: #faf9fd;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-color);
-      color: #1a1b1e;
-    }
-    h1, h2, h3, h4, h5, .navbar-brand {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .btn-primary, .bg-primary-custom {
-      background-color: var(--primary-color) !important;
-      border-color: var(--primary-color) !important;
-      color: #ffffff !important;
-    }
-    .btn-primary:hover, .btn-primary:focus {
-      background-color: var(--primary-hover) !important;
-      border-color: var(--primary-hover) !important;
-    }
-    .text-primary-custom {
-      color: var(--primary-color) !important;
-    }
-    .nav-link.active {
-      color: var(--primary-color) !important;
-      font-weight: 600;
-      border-bottom: 3px solid var(--primary-color);
-    }
-    .card-indicator-primary {
-      border-left: 4px solid var(--primary-color) !important;
-    }
-    .card-indicator-secondary {
-      border-left: 4px solid #198754 !important;
-    }
-    .card-indicator-danger {
-      border-left: 4px solid #dc3545 !important;
-    }
-    .badge-primary-subtle {
-      background-color: #d8e2ff;
-      color: #001a41;
-    }
-    .badge-success-subtle {
-      background-color: #90f5ab;
-      color: #00210c;
-    }
-    .badge-danger-subtle {
-      background-color: #ffdad4;
-      color: #410000;
-    }
-    .hover-shadow {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .hover-shadow:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
-    }
-    .dashed-card {
-      border: 2px dashed #c2c6d5 !important;
-      background-color: #ffffff;
-      min-height: 200px;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-    .dashed-card:hover {
-      background-color: #f4f3f7;
-    }
-    .bottom-nav-link {
-      color: #727785;
-      text-decoration: none;
-      font-size: 11px;
-    }
-    .bottom-nav-link.active {
-      color: var(--primary-color);
-      font-weight: 600;
-    }
-  </style>
-</head>
-<body class="min-vh-100 d-flex flex-column">
-<!-- Desktop Top Navigation Bar -->
-<header class="sticky-top bg-white border-bottom shadow-sm">
-<div class="container-xl d-flex justify-content-between align-items-center py-2" style="min-height: 64px;">
-<div class="d-flex align-items-center gap-4">
-<a class="navbar-brand fs-4 fw-bold text-primary-custom mb-0 text-decoration-none" href="index.html">My Calendar</a>
-<!-- Classic Desktop Navigation -->
-<nav class="d-none d-lg-flex align-items-center gap-4 mb-0">
-<a class="nav-link active px-2 py-3" href="index.html">Início</a>
-<a class="nav-link text-secondary px-2 py-3" href="evento.html">Novo Evento</a>
-<a class="nav-link text-secondary px-2 py-3" href="estatisticas.html">Estatísticas</a>
-</nav>
-</div>
-<div class="d-flex align-items-center gap-3">
-<!-- User Avatar -->
-<button aria-label="account_circle" class="btn btn-link text-secondary p-0 text-decoration-none">
-<i class="bi bi-person-circle fs-3"></i>
-</button>
-</div>
-</div>
-</header>
-<!-- Main Content -->
-<main class="flex-grow-1 container-xl py-4 pb-5">
-<!-- Search and Filter Bar -->
-<div class="row g-3 mb-4">
-<div class="col-12 col-md">
-<div class="input-group shadow-sm">
-<span class="input-group-text bg-white border-end-0 text-secondary">
-<i class="bi bi-search"></i>
-</span>
-<input aria-label="Buscar eventos" class="form-control border-start-0 ps-0 bg-white" placeholder="Buscar eventos..." type="text"/>
-</div>
-</div>
-<div class="col-12 col-md-auto" style="min-width: 220px;">
-<div class="input-group shadow-sm">
-<span class="input-group-text bg-white border-end-0 text-secondary">
-<i class="bi bi-funnel"></i>
-</span>
-<select aria-label="Filtrar por categoria" class="form-select border-start-0 bg-white">
-<option selected="" value="all">Todas as Categorias</option>
-<option value="work">Trabalho</option>
-<option value="health">Saúde</option>
-<option value="study">Estudos</option>
-</select>
-</div>
-</div>
-</div>
-<!-- Events Grid -->
-<div class="row g-4">
-<!-- Event Card: Trabalho -->
-<div class="col-12 col-sm-6 col-lg-4">
-<div class="card h-100 shadow-sm border-0 rounded-4 card-indicator-primary hover-shadow position-relative">
-<div class="card-body p-4 d-flex flex-column">
-<div class="d-flex justify-content-between align-items-center mb-2">
-<span class="badge badge-primary-subtle fw-semibold px-2 py-1">Trabalho</span>
-<button aria-label="Opções" class="btn btn-sm btn-link text-secondary p-0 text-decoration-none">
-<i class="bi bi-three-dots-vertical fs-5"></i>
-</button>
-</div>
-<h3 class="h5 fw-bold text-dark mt-2 mb-3">Reunião de Alinhamento Q3</h3>
-<div class="mt-auto pt-3 border-top border-light">
-<div class="d-flex align-items-center gap-2 text-secondary small mb-2">
-<i class="bi bi-clock"></i>
-<span>10:00 - 11:30</span>
-</div>
-<div class="d-flex align-items-center gap-2 text-secondary small">
-<i class="bi bi-camera-video"></i>
-<span>Google Meet</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Event Card: Saúde -->
-<div class="col-12 col-sm-6 col-lg-4">
-<div class="card h-100 shadow-sm border-0 rounded-4 card-indicator-secondary hover-shadow position-relative">
-<div class="card-body p-4 d-flex flex-column">
-<div class="d-flex justify-content-between align-items-center mb-2">
-<span class="badge badge-success-subtle fw-semibold px-2 py-1">Saúde</span>
-<button aria-label="Opções" class="btn btn-sm btn-link text-secondary p-0 text-decoration-none">
-<i class="bi bi-three-dots-vertical fs-5"></i>
-</button>
-</div>
-<h3 class="h5 fw-bold text-dark mt-2 mb-3">Consulta Dermatologista</h3>
-<div class="mt-auto pt-3 border-top border-light">
-<div class="d-flex align-items-center gap-2 text-secondary small mb-2">
-<i class="bi bi-clock"></i>
-<span>14:30 - 15:30</span>
-</div>
-<div class="d-flex align-items-center gap-2 text-secondary small">
-<i class="bi bi-geo-alt"></i>
-<span>Clínica SkinCare, Centro</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Event Card: Estudos (Concluído) -->
-<div class="col-12 col-sm-6 col-lg-4">
-<div class="card h-100 shadow-sm border-0 rounded-4 card-indicator-danger hover-shadow position-relative opacity-75">
-<div class="card-body p-4 d-flex flex-column">
-<div class="d-flex justify-content-between align-items-center mb-2">
-<div class="d-flex align-items-center gap-2">
-<span class="badge badge-danger-subtle fw-semibold px-2 py-1 text-decoration-line-through">Estudos</span>
-<i class="bi bi-check-circle-fill text-success fs-6"></i>
-</div>
-<button aria-label="Opções" class="btn btn-sm btn-link text-secondary p-0 text-decoration-none">
-<i class="bi bi-three-dots-vertical fs-5"></i>
-</button>
-</div>
-<h3 class="h5 fw-bold text-secondary text-decoration-line-through mt-2 mb-3">Módulo 4: UI/UX Avançado</h3>
-<div class="mt-auto pt-3 border-top border-light">
-<div class="d-flex align-items-center gap-2 text-secondary small text-decoration-line-through">
-<i class="bi bi-clock"></i>
-<span>08:00 - 09:30</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Placeholder / Adicionar novo evento -->
-<div class="col-12 col-sm-6 col-lg-4">
-<a class="card h-100 rounded-4 dashed-card d-flex flex-column align-items-center justify-content-center p-4 text-center text-decoration-none" href="evento.html">
-<i class="bi bi-plus-circle text-secondary fs-1 mb-2"></i>
-<span class="text-secondary fw-semibold">Adicionar novo evento</span>
-</a>
-</div>
-</div>
-</main>
-<!-- Footer -->
-<footer class="w-100 py-3 px-4 bg-white border-top mt-auto">
-<div class="container-xl d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-<div class="fw-bold small text-dark">
-        My Calendar © 2026
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>My Calendar - Início</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap 5.3 CSS (local, via npm) -->
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons (local, via npm) -->
+    <link href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
+  </head>
+  <body class="min-vh-100 d-flex flex-column">
+    <!-- Desktop Top Navigation Bar -->
+    <header class="sticky-top bg-white border-bottom shadow-sm">
+      <div class="container-xl d-flex justify-content-between align-items-center py-2" style="min-height: 64px">
+        <div class="d-flex align-items-center gap-4">
+          <a class="navbar-brand fs-4 fw-bold text-primary-custom mb-0 text-decoration-none" href="index.html">
+            My Calendar
+          </a>
+          <!-- Classic Desktop Navigation -->
+          <nav class="d-none d-lg-flex align-items-center gap-4 mb-0">
+            <a class="nav-link active px-2 py-3" href="index.html">Início</a>
+            <a class="nav-link text-secondary px-2 py-3" href="evento.html">Novo Evento</a>
+            <a class="nav-link text-secondary px-2 py-3" href="estatisticas.html">Estatísticas</a>
+          </nav>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <!-- User Avatar -->
+          <button aria-label="account_circle" class="btn btn-link text-secondary p-0 text-decoration-none">
+            <i class="bi bi-person-circle fs-3"></i>
+          </button>
+        </div>
       </div>
-<nav class="d-flex gap-3 small">
-<a class="text-secondary text-decoration-none" href="#">Privacidade</a>
-<a class="text-secondary text-decoration-none" href="#">Termos</a>
-<a class="text-secondary text-decoration-none" href="#">Suporte</a>
-</nav>
-</div>
-</footer>
-<!-- Bottom Navigation Bar (Mobile only) — sticky-bottom: ocupa espaço no fluxo flex do body, então nunca cobre o footer -->
-<nav class="d-block d-lg-none sticky-bottom bg-white border-top shadow py-2">
-<div class="d-flex justify-content-around align-items-center">
-<a class="bottom-nav-link active d-flex flex-column align-items-center" href="index.html">
-<i class="bi bi-house-door fs-5"></i>
-<span>Início</span>
-</a>
-<a class="bottom-nav-link d-flex flex-column align-items-center" href="evento.html">
-<i class="bi bi-plus-circle fs-5"></i>
-<span>Novo</span>
-</a>
-<a class="bottom-nav-link d-flex flex-column align-items-center" href="estatisticas.html">
-<i class="bi bi-bar-chart-line fs-5"></i>
-<span>Estatísticas</span>
-</a>
-</div>
-</nav>
-<!-- Bootstrap 5.3 JS Bundle (local, via npm) -->
-<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-</body></html>
+    </header>
+    <!-- Main Content -->
+    <main class="flex-grow-1 container-xl py-4 pb-5">
+      <!-- Search and Filter Bar -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-md">
+          <div class="input-group shadow-sm">
+            <span class="input-group-text bg-white border-end-0 text-secondary">
+              <i class="bi bi-search"></i>
+            </span>
+            <input
+              aria-label="Buscar eventos"
+              class="form-control border-start-0 ps-0 bg-white"
+              placeholder="Buscar eventos..."
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="col-12 col-md-auto" style="min-width: 220px">
+          <div class="input-group shadow-sm">
+            <span class="input-group-text bg-white border-end-0 text-secondary">
+              <i class="bi bi-funnel"></i>
+            </span>
+            <select aria-label="Filtrar por categoria" class="form-select border-start-0 bg-white">
+              <option selected="" value="all">Todas as Categorias</option>
+              <option value="work">Trabalho</option>
+              <option value="health">Saúde</option>
+              <option value="study">Estudos</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- Events Grid -->
+      <div class="row g-4">
+        <!-- Event Card: Trabalho -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="card h-100 shadow-sm border-0 rounded-4 card-indicator-primary hover-shadow position-relative">
+            <div class="card-body p-4 d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge badge-primary-subtle fw-semibold px-2 py-1">Trabalho</span>
+                <button aria-label="Opções" class="btn btn-sm btn-link text-secondary p-0 text-decoration-none">
+                  <i class="bi bi-three-dots-vertical fs-5"></i>
+                </button>
+              </div>
+              <h3 class="h5 fw-bold text-dark mt-2 mb-3">Reunião de Alinhamento Q3</h3>
+              <div class="mt-auto pt-3 border-top border-light">
+                <div class="d-flex align-items-center gap-2 text-secondary small mb-2">
+                  <i class="bi bi-clock"></i>
+                  <span>10:00 - 11:30</span>
+                </div>
+                <div class="d-flex align-items-center gap-2 text-secondary small">
+                  <i class="bi bi-camera-video"></i>
+                  <span>Google Meet</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Event Card: Saúde -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="card h-100 shadow-sm border-0 rounded-4 card-indicator-secondary hover-shadow position-relative">
+            <div class="card-body p-4 d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge badge-success-subtle fw-semibold px-2 py-1">Saúde</span>
+                <button aria-label="Opções" class="btn btn-sm btn-link text-secondary p-0 text-decoration-none">
+                  <i class="bi bi-three-dots-vertical fs-5"></i>
+                </button>
+              </div>
+              <h3 class="h5 fw-bold text-dark mt-2 mb-3">Consulta Dermatologista</h3>
+              <div class="mt-auto pt-3 border-top border-light">
+                <div class="d-flex align-items-center gap-2 text-secondary small mb-2">
+                  <i class="bi bi-clock"></i>
+                  <span>14:30 - 15:30</span>
+                </div>
+                <div class="d-flex align-items-center gap-2 text-secondary small">
+                  <i class="bi bi-geo-alt"></i>
+                  <span>Clínica SkinCare, Centro</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Event Card: Estudos (Concluído) -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div
+            class="card h-100 shadow-sm border-0 rounded-4 card-indicator-danger hover-shadow position-relative opacity-75"
+          >
+            <div class="card-body p-4 d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge badge-danger-subtle fw-semibold px-2 py-1 text-decoration-line-through">
+                    Estudos
+                  </span>
+                  <i class="bi bi-check-circle-fill text-success fs-6"></i>
+                </div>
+                <button aria-label="Opções" class="btn btn-sm btn-link text-secondary p-0 text-decoration-none">
+                  <i class="bi bi-three-dots-vertical fs-5"></i>
+                </button>
+              </div>
+              <h3 class="h5 fw-bold text-secondary text-decoration-line-through mt-2 mb-3">Módulo 4: UI/UX Avançado</h3>
+              <div class="mt-auto pt-3 border-top border-light">
+                <div class="d-flex align-items-center gap-2 text-secondary small text-decoration-line-through">
+                  <i class="bi bi-clock"></i>
+                  <span>08:00 - 09:30</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Placeholder / Adicionar novo evento -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <a
+            class="card h-100 rounded-4 dashed-card d-flex flex-column align-items-center justify-content-center p-4 text-center text-decoration-none"
+            href="evento.html"
+          >
+            <i class="bi bi-plus-circle text-secondary fs-1 mb-2"></i>
+            <span class="text-secondary fw-semibold">Adicionar novo evento</span>
+          </a>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer class="w-100 py-3 px-4 bg-white border-top mt-auto">
+      <div class="container-xl d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <div class="fw-bold small text-dark">My Calendar © 2026</div>
+        <nav class="d-flex gap-3 small">
+          <a class="text-secondary text-decoration-none" href="#">Privacidade</a>
+          <a class="text-secondary text-decoration-none" href="#">Termos</a>
+          <a class="text-secondary text-decoration-none" href="#">Suporte</a>
+        </nav>
+      </div>
+    </footer>
+    <!-- Bottom Navigation Bar (Mobile only) — sticky-bottom: ocupa espaço no fluxo flex do body, então nunca cobre o footer -->
+    <nav class="d-block d-lg-none sticky-bottom bg-white border-top shadow py-2">
+      <div class="d-flex justify-content-around align-items-center">
+        <a class="bottom-nav-link active d-flex flex-column align-items-center" href="index.html">
+          <i class="bi bi-house-door fs-5"></i>
+          <span>Início</span>
+        </a>
+        <a class="bottom-nav-link d-flex flex-column align-items-center" href="evento.html">
+          <i class="bi bi-plus-circle fs-5"></i>
+          <span>Novo</span>
+        </a>
+        <a class="bottom-nav-link d-flex flex-column align-items-center" href="estatisticas.html">
+          <i class="bi bi-bar-chart-line fs-5"></i>
+          <span>Estatísticas</span>
+        </a>
+      </div>
+    </nav>
+    <!-- Bootstrap 5.3 JS Bundle (local, via npm) -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

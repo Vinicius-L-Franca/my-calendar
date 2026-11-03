@@ -1,0 +1,86 @@
+:root {
+  --primary-color: #4285f4;
+  --primary-hover: #3367d6;
+  --bg-color: #faf9fd;
+}
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-color);
+  color: #1a1b1e;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+.navbar-brand {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+.btn-primary,
+.bg-primary-custom {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+.text-primary-custom {
+  color: var(--primary-color) !important;
+}
+.nav-link.active {
+  color: var(--primary-color) !important;
+  font-weight: 600;
+  border-bottom: 3px solid var(--primary-color);
+}
+.card-indicator-primary {
+  border-left: 4px solid var(--primary-color) !important;
+}
+.card-indicator-secondary {
+  border-left: 4px solid #198754 !important;
+}
+.card-indicator-danger {
+  border-left: 4px solid #dc3545 !important;
+}
+.badge-primary-subtle {
+  background-color: #d8e2ff;
+  color: #001a41;
+}
+.badge-success-subtle {
+  background-color: #90f5ab;
+  color: #00210c;
+}
+.badge-danger-subtle {
+  background-color: #ffdad4;
+  color: #410000;
+}
+.hover-shadow {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.hover-shadow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+}
+.dashed-card {
+  border: 2px dashed #c2c6d5 !important;
+  background-color: #ffffff;
+  min-height: 200px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.dashed-card:hover {
+  background-color: #f4f3f7;
+}
+.bottom-nav-link {
+  color: #727785;
+  text-decoration: none;
+  font-size: 11px;
+}
+.bottom-nav-link.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
