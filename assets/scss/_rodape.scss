@@ -1,0 +1,33 @@
+.rodape {
+  padding-block: $espaco-lg;
+  background-color: $cor-fundo;
+}
+
+// Layout do rodapé com Flexbox (CSS meu, sem classes do Bootstrap).
+// Mobile first: no celular, o nome e os links ficam um embaixo do outro;
+// a partir do md (768px), ficam lado a lado, um em cada ponta.
+.rodape-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $espaco-md;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.rodape-links {
+  display: flex;
+  gap: $espaco-lg;
+
+  a {
+    color: $cor-texto-secundario;
+    text-decoration: none;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}

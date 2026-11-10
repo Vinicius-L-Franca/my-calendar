@@ -1,0 +1,13 @@
+// Fundo da página em cinza claro, para os cards brancos se destacarem
+body {
+  background-color: $cor-fundo-secundario;
+}
+
+// Título principal de cada página.
+// Tipografia fluida com clamp(mínimo, ideal, máximo): o tamanho cresce junto
+// com a largura da tela (vw), de 22px (token xl) no celular até 28px (token xxl)
+// no desktop, sem precisar de media query.
+h1 {
+  font-size: clamp($fonte-xl, 1rem + 1.5vw, $fonte-xxl);
+  font-weight: $peso-negrito;
+}

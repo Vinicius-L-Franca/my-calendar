@@ -1,0 +1,33 @@
+// Card de evento da lista (index.html).
+// A borda da esquerda ganha a cor da categoria (ver _categorias.scss).
+.card-evento {
+  border-left: px-para-rem(4px) solid $cor-outro;
+  @include sombra-card;
+
+  .card-title {
+    font-size: $fonte-lg;
+    font-weight: $peso-negrito;
+  }
+}
+
+// Evento concluído: mais claro e com o título riscado
+.card-evento.concluido {
+  opacity: 0.7;
+
+  .card-title {
+    text-decoration: line-through;
+  }
+}
+
+// Card tracejado que leva para o formulário de novo evento
+.card-adicionar {
+  min-height: px-para-rem(160px);
+  color: $cor-texto-secundario;
+  text-decoration: none;
+  border: px-para-rem(2px) dashed $cor-borda;
+
+  &:hover {
+    color: $primary;
+    background-color: $cor-hover;
+  }
+}

@@ -1,0 +1,36 @@
+// Menu na parte de baixo da tela, usado no celular e no tablet.
+// position: sticky (e não fixed) deixa a barra presa no fim da tela,
+// mas ocupando o seu espaço na página: assim ela nunca cobre o rodapé.
+.barra-inferior {
+  position: sticky;
+  bottom: 0;
+  z-index: $zindex-sticky;
+  display: flex;
+  justify-content: space-around;
+  padding-block: $espaco-md;
+  background-color: $cor-fundo;
+
+  // A partir do lg (992px) o menu do topo aparece, então esta barra some
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+
+.barra-inferior-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $espaco-xs;
+  font-size: $fonte-xs;
+  color: $cor-texto-secundario;
+  text-decoration: none;
+
+  i {
+    font-size: $fonte-xl;
+  }
+
+  &.ativo {
+    color: $primary;
+    font-weight: $peso-medio;
+  }
+}

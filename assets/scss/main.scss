@@ -1,0 +1,21 @@
+// Arquivo principal do Sass: ele só importa os outros arquivos, na ordem certa.
+// Para gerar o assets/css/main.css: npm run sass
+
+// 1. Minha função e os tokens do Design System.
+//    Vêm antes do Bootstrap para que ele use as minhas cores e fontes.
+@import "funcoes";
+@import "variaveis";
+
+// 2. O Bootstrap inteiro, já personalizado pelas variáveis acima.
+@import "bootstrap/scss/bootstrap";
+
+// 3. Meus mixins e as regras de cada parte do site.
+@import "mixins";
+@import "base";
+@import "cabecalho";
+@import "rodape";
+@import "barra-inferior";
+@import "banner";
+@import "eventos";
+@import "estatisticas";
+@import "categorias"; // por último, para as cores das categorias valerem sobre as outras regras

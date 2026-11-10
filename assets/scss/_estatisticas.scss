@@ -1,0 +1,28 @@
+// Cards com os números do mês (estatisticas.html)
+.card-resumo {
+  @include sombra-card;
+}
+
+.card-resumo-titulo {
+  font-size: $fonte-sm;
+  font-weight: $peso-medio;
+  color: $cor-texto-secundario;
+  text-transform: uppercase;
+}
+
+.card-resumo-numero {
+  font-size: $fonte-xxl;
+  font-weight: $peso-negrito;
+}
+
+// Lista "Eventos por categoria"
+.bolinha {
+  display: inline-block;
+  width: px-para-rem(12px);
+  height: px-para-rem(12px);
+  border-radius: 50%;
+}
+
+.lista-categorias .progress {
+  height: $espaco-md;
+}

@@ -1,20 +1,21 @@
 {
   "name": "my-calendar",
   "version": "1.0.0",
-  "description": "**Autor:** Vinicius Liepienski de França",
+  "description": "Agenda pessoal responsiva feita com Bootstrap e Sass",
   "main": "index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sass": "sass --load-path=node_modules --quiet-deps --silence-deprecation=import assets/scss/main.scss assets/css/main.css",
+    "sass:watch": "sass --watch --load-path=node_modules --quiet-deps --silence-deprecation=import assets/scss/main.scss assets/css/main.css"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Vinicius-L-Franca/my-calendar.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vinicius Liepienski de França",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
@@ -28,6 +29,7 @@
     "uuid": "^14.0.2"
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "sass": "^1.107.1"
   }
 }

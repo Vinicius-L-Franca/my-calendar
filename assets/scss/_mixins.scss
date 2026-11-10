@@ -1,0 +1,28 @@
+// Sombra leve que fica mais forte quando o mouse passa por cima.
+// Usada nos cards de evento (index.html) e nos cards de resumo (estatisticas.html).
+@mixin sombra-card {
+  box-shadow: $sombra-sm;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: $sombra-md;
+  }
+}
+
+// Cores de uma categoria de evento (Trabalho, Pessoal, Saúde...).
+// Recebe a cor do token e cria as variações com as funções do Bootstrap:
+// tint-color() mistura com branco (fundo claro do badge) e
+// shade-color() mistura com preto (texto escuro do badge).
+@mixin cores-categoria($cor) {
+  border-left-color: $cor;
+
+  .badge {
+    color: shade-color($cor, 40%);
+    background-color: tint-color($cor, 85%);
+  }
+
+  .bolinha,
+  .progress-bar {
+    background-color: $cor;
+  }
+}

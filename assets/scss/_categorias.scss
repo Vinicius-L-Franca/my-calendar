@@ -1,0 +1,22 @@
+// Uma classe por categoria, todas com o mesmo mixin.
+// A mesma classe pinta o card na lista (index.html)
+// e a linha da categoria nas estatísticas (estatisticas.html).
+.categoria-trabalho {
+  @include cores-categoria($cor-trabalho);
+}
+
+.categoria-pessoal {
+  @include cores-categoria($cor-pessoal);
+}
+
+.categoria-saude {
+  @include cores-categoria($cor-saude);
+}
+
+.categoria-estudos {
+  @include cores-categoria($cor-estudos);
+}
+
+.categoria-outro {
+  @include cores-categoria($cor-outro);
+}

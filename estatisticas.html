@@ -1,245 +1,235 @@
 <!doctype html>
-
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>My Calendar - Estatísticas</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <!-- Bootstrap 5.3 CSS (local, via npm) -->
-    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons (local, via npm) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Estatísticas | My Calendar</title>
+
+    <!-- Fonte do Design System (Roboto) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Ícones do Bootstrap (instalados via npm) -->
     <link href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link href="css/estatisticas.css" rel="stylesheet" />
+
+    <!-- Bootstrap + estilos do projeto, compilados pelo Sass -->
+    <link href="assets/css/main.css" rel="stylesheet" />
   </head>
+
   <body class="d-flex flex-column min-vh-100">
-    <!-- Desktop Top Navigation Bar -->
-    <header class="sticky-top bg-white border-bottom shadow-sm">
-      <div class="container-xl d-flex justify-content-between align-items-center py-2" style="min-height: 64px">
-        <div class="d-flex align-items-center gap-4">
-          <a class="navbar-brand fs-4 fw-bold text-primary-custom mb-0 text-decoration-none" href="index.html">
-            My Calendar
-          </a>
-          <!-- Classic Desktop Navigation -->
-          <nav class="d-none d-lg-flex align-items-center gap-4 mb-0">
-            <a class="nav-link text-secondary px-2 py-3" href="index.html">Início</a>
-            <a class="nav-link text-secondary px-2 py-3" href="evento.html">Novo Evento</a>
-            <a class="nav-link active px-2 py-3" href="estatisticas.html">Estatísticas</a>
-          </nav>
-        </div>
-        <div class="d-flex align-items-center gap-3">
-          <!-- User Avatar -->
-          <button aria-label="account_circle" class="btn btn-link text-secondary p-0 text-decoration-none">
+    <!-- Cabeçalho -->
+    <header class="sticky-top">
+      <nav class="navbar bg-white border-bottom" aria-label="Menu principal">
+        <div class="container-xl">
+          <a class="navbar-brand fw-bold text-primary" href="index.html">My Calendar</a>
+
+          <!-- Menu do topo: só aparece a partir do lg (992px) -->
+          <ul class="navbar-nav flex-row gap-4 ms-4 me-auto d-none d-lg-flex">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Início</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="evento.html">Novo Evento</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="estatisticas.html">Estatísticas</a>
+            </li>
+          </ul>
+
+          <button class="btn btn-link text-secondary p-0" type="button" aria-label="Minha conta">
             <i class="bi bi-person-circle fs-3"></i>
           </button>
         </div>
-      </div>
+      </nav>
     </header>
-    <!-- Main Content -->
-    <main class="container-xl py-4 flex-grow-1 pb-5">
-      <!-- Header Title -->
-      <div class="mb-4">
-        <h1 class="h3 fw-bold text-dark mb-1">Estatísticas</h1>
-        <p class="text-secondary small mb-0">Visão geral da sua gestão de tempo este mês.</p>
-      </div>
-      <!-- Summary Cards -->
-      <div class="row g-3 g-lg-4 mb-4">
-        <!-- Card 1: Total de Eventos -->
+
+    <!-- Conteúdo principal -->
+    <main class="flex-grow-1 container-xl py-4">
+      <h1 class="mb-1">Estatísticas</h1>
+      <p class="text-body-secondary small mb-4">Visão geral dos seus eventos neste mês.</p>
+
+      <!-- Resumo: empilhado no celular, 3 colunas a partir do md (768px) -->
+      <section class="row g-3 mb-4" aria-label="Resumo do mês">
         <div class="col-12 col-md-4">
-          <div class="card h-100">
-            <div class="card-body d-flex flex-column justify-content-between p-3 p-lg-4">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <span class="text-uppercase text-secondary fw-semibold small tracking-wide" style="font-size: 0.75rem">
-                  Total de Eventos
-                </span>
+          <article class="card card-resumo h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <h2 class="card-resumo-titulo">Total de eventos</h2>
                 <i class="bi bi-calendar3 text-secondary fs-5"></i>
               </div>
-              <div class="my-2">
-                <span class="fs-2 fw-bold text-dark">84</span>
-              </div>
-              <div class="d-flex align-items-center text-success small fw-medium mt-1">
+              <p class="card-resumo-numero mb-1">84</p>
+              <p class="text-success small mb-0">
                 <i class="bi bi-graph-up-arrow me-1"></i>
-                <span>+12% vs. último mês</span>
-              </div>
+                12% a mais que no mês passado
+              </p>
             </div>
-          </div>
+          </article>
         </div>
-        <!-- Card 2: Concluídos (Horas / Concluídos) -->
+
         <div class="col-12 col-md-4">
-          <div class="card h-100">
-            <div class="card-body d-flex flex-column justify-content-between p-3 p-lg-4">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <span class="text-uppercase text-secondary fw-semibold small tracking-wide" style="font-size: 0.75rem">
-                  Concluídos
-                </span>
+          <article class="card card-resumo h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <h2 class="card-resumo-titulo">Concluídos</h2>
                 <i class="bi bi-check2-circle text-secondary fs-5"></i>
               </div>
-              <div class="my-2">
-                <span class="fs-2 fw-bold text-dark">65</span>
-              </div>
-              <div class="d-flex align-items-center text-secondary small fw-medium mt-1">
-                <i class="bi bi-dash-lg me-1"></i>
-                <span>77% taxa de conclusão</span>
-              </div>
+              <p class="card-resumo-numero mb-1">65</p>
+              <p class="text-body-secondary small mb-0">77% de taxa de conclusão</p>
             </div>
-          </div>
+          </article>
         </div>
-        <!-- Card 3: Pendentes -->
+
         <div class="col-12 col-md-4">
-          <div class="card h-100">
-            <div class="card-body d-flex flex-column justify-content-between p-3 p-lg-4">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <span class="text-uppercase text-secondary fw-semibold small tracking-wide" style="font-size: 0.75rem">
-                  Pendentes
-                </span>
+          <article class="card card-resumo h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <h2 class="card-resumo-titulo">Pendentes</h2>
                 <i class="bi bi-clock text-secondary fs-5"></i>
               </div>
-              <div class="my-2">
-                <span class="fs-2 fw-bold text-dark">19</span>
-              </div>
-              <div class="d-flex align-items-center text-secondary small fw-medium mt-1">
-                <i class="bi bi-hourglass-split me-1"></i>
-                <span>Próximos 7 dias</span>
-              </div>
+              <p class="card-resumo-numero mb-1">19</p>
+              <p class="text-body-secondary small mb-0">Nos próximos 7 dias</p>
             </div>
-          </div>
+          </article>
         </div>
-      </div>
-      <!-- Category Section -->
-      <div class="card">
-        <div class="card-body p-3 p-lg-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h5 fw-bold mb-0 text-dark">Eventos por categoria</h2>
-            <a class="btn btn-sm text-primary-custom fw-semibold p-0 text-decoration-none" href="#">
-              Ver relatório completo
-            </a>
-          </div>
-          <div class="d-flex flex-column gap-3">
-            <!-- Category 1: Trabalho -->
-            <div>
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <div class="d-flex align-items-center gap-2">
-                  <span class="category-bullet" style="background-color: #4285f4"></span>
-                  <span class="fw-medium small text-dark">Trabalho</span>
-                </div>
-                <span class="small text-secondary fw-medium">45 (54%)</span>
+      </section>
+
+      <!-- Eventos por categoria -->
+      <section class="card card-resumo">
+        <div class="card-body">
+          <h2 class="h5 fw-bold mb-4">Eventos por categoria</h2>
+
+          <!-- A largura de cada barra (style="width") é o dado da categoria; na Entrega 3 ela virá do JavaScript -->
+          <ul class="lista-categorias list-unstyled d-flex flex-column gap-3 mb-0">
+            <li class="categoria-trabalho">
+              <div class="d-flex justify-content-between mb-1">
+                <span>
+                  <span class="bolinha me-2"></span>
+                  Trabalho
+                </span>
+                <span class="text-body-secondary small">45 (54%)</span>
               </div>
               <div
+                class="progress"
+                role="progressbar"
                 aria-label="Trabalho"
-                aria-valuemax="100"
-                aria-valuemin="0"
                 aria-valuenow="54"
-                class="progress"
-                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
               >
-                <div class="progress-bar rounded-pill" style="width: 54%; background-color: #4285f4"></div>
+                <div class="progress-bar" style="width: 54%"></div>
               </div>
-            </div>
-            <!-- Category 2: Pessoal -->
-            <div>
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <div class="d-flex align-items-center gap-2">
-                  <span class="category-bullet bg-success"></span>
-                  <span class="fw-medium small text-dark">Pessoal</span>
-                </div>
-                <span class="small text-secondary fw-medium">21 (25%)</span>
+            </li>
+            <li class="categoria-pessoal">
+              <div class="d-flex justify-content-between mb-1">
+                <span>
+                  <span class="bolinha me-2"></span>
+                  Pessoal
+                </span>
+                <span class="text-body-secondary small">21 (25%)</span>
               </div>
               <div
+                class="progress"
+                role="progressbar"
                 aria-label="Pessoal"
-                aria-valuemax="100"
-                aria-valuemin="0"
                 aria-valuenow="25"
-                class="progress"
-                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
               >
-                <div class="progress-bar bg-success rounded-pill" style="width: 25%"></div>
+                <div class="progress-bar" style="width: 25%"></div>
               </div>
-            </div>
-            <!-- Category 3: Estudos -->
-            <div>
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <div class="d-flex align-items-center gap-2">
-                  <span class="category-bullet bg-danger"></span>
-                  <span class="fw-medium small text-dark">Estudos</span>
-                </div>
-                <span class="small text-secondary fw-medium">12 (14%)</span>
+            </li>
+            <li class="categoria-estudos">
+              <div class="d-flex justify-content-between mb-1">
+                <span>
+                  <span class="bolinha me-2"></span>
+                  Estudos
+                </span>
+                <span class="text-body-secondary small">9 (11%)</span>
               </div>
               <div
+                class="progress"
+                role="progressbar"
                 aria-label="Estudos"
-                aria-valuemax="100"
+                aria-valuenow="11"
                 aria-valuemin="0"
-                aria-valuenow="14"
-                class="progress"
-                role="progressbar"
+                aria-valuemax="100"
               >
-                <div class="progress-bar bg-danger rounded-pill" style="width: 14%"></div>
+                <div class="progress-bar" style="width: 11%"></div>
               </div>
-            </div>
-            <!-- Category 4: Saúde -->
-            <div>
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <div class="d-flex align-items-center gap-2">
-                  <span class="category-bullet bg-info"></span>
-                  <span class="fw-medium small text-dark">Saúde</span>
-                </div>
-                <span class="small text-secondary fw-medium">6 (7%)</span>
+            </li>
+            <li class="categoria-saude">
+              <div class="d-flex justify-content-between mb-1">
+                <span>
+                  <span class="bolinha me-2"></span>
+                  Saúde
+                </span>
+                <span class="text-body-secondary small">6 (7%)</span>
               </div>
               <div
-                aria-label="Saúde"
-                aria-valuemax="100"
-                aria-valuemin="0"
-                aria-valuenow="7"
                 class="progress"
                 role="progressbar"
+                aria-label="Saúde"
+                aria-valuenow="7"
+                aria-valuemin="0"
+                aria-valuemax="100"
               >
-                <div class="progress-bar bg-info rounded-pill" style="width: 7%"></div>
+                <div class="progress-bar" style="width: 7%"></div>
               </div>
-            </div>
-          </div>
+            </li>
+            <li class="categoria-outro">
+              <div class="d-flex justify-content-between mb-1">
+                <span>
+                  <span class="bolinha me-2"></span>
+                  Outro
+                </span>
+                <span class="text-body-secondary small">3 (4%)</span>
+              </div>
+              <div
+                class="progress"
+                role="progressbar"
+                aria-label="Outro"
+                aria-valuenow="4"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <div class="progress-bar" style="width: 4%"></div>
+              </div>
+            </li>
+          </ul>
         </div>
-      </div>
+      </section>
     </main>
-    <!-- Footer (todas as telas) -->
-    <footer class="mt-auto py-3 bg-white border-top">
-      <div class="container-xl d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
-        <span class="small fw-semibold text-secondary">My Calendar © 2026</span>
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link px-2 text-secondary small text-decoration-none" href="#">Privacidade</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link px-2 text-secondary small text-decoration-none" href="#">Termos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link px-2 text-secondary small text-decoration-none" href="#">Suporte</a>
-          </li>
-        </ul>
+
+    <!-- Rodapé -->
+    <footer class="rodape border-top mt-auto">
+      <div class="container-xl rodape-conteudo">
+        <p class="mb-0 fw-medium">My Calendar © 2026</p>
+        <nav class="rodape-links" aria-label="Links do rodapé">
+          <a href="#">Privacidade</a>
+          <a href="#">Termos</a>
+          <a href="#">Suporte</a>
+        </nav>
       </div>
     </footer>
-    <!-- Mobile Bottom Navigation Bar -->
-    <nav class="bottom-nav d-block d-lg-none">
-      <div class="d-flex justify-content-around align-items-center">
-        <a class="bottom-nav-item flex-fill" href="index.html">
-          <i class="bi bi-house"></i>
-          <span>Início</span>
-        </a>
-        <a class="bottom-nav-item flex-fill" href="evento.html">
-          <i class="bi bi-plus-circle"></i>
-          <span>Novo</span>
-        </a>
-        <a class="bottom-nav-item flex-fill active" href="estatisticas.html">
-          <i class="bi bi-bar-chart-fill"></i>
-          <span>Estatísticas</span>
-        </a>
-      </div>
+
+    <!-- Menu do celular: some a partir do lg (992px) -->
+    <nav class="barra-inferior border-top" aria-label="Menu do celular">
+      <a class="barra-inferior-link" href="index.html">
+        <i class="bi bi-house-door"></i>
+        <span>Início</span>
+      </a>
+      <a class="barra-inferior-link" href="evento.html">
+        <i class="bi bi-plus-circle"></i>
+        <span>Novo</span>
+      </a>
+      <a class="barra-inferior-link ativo" aria-current="page" href="estatisticas.html">
+        <i class="bi bi-bar-chart-line"></i>
+        <span>Estatísticas</span>
+      </a>
     </nav>
-    <!-- Bootstrap 5.3 JS Bundle (local, via npm) -->
+
+    <!-- JavaScript do Bootstrap -->
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

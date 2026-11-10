@@ -1,251 +1,214 @@
 <!doctype html>
-
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Novo Evento - My Calendar</title>
-    <!-- Bootstrap 5.3 CSS (local, via npm) -->
-    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons (local, via npm) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Novo Evento | My Calendar</title>
+
+    <!-- Fonte do Design System (Roboto) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Ícones do Bootstrap (instalados via npm) -->
     <link href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link href="css/evento.css" rel="stylesheet" />
+
+    <!-- Bootstrap + estilos do projeto, compilados pelo Sass -->
+    <link href="assets/css/main.css" rel="stylesheet" />
   </head>
+
   <body class="d-flex flex-column min-vh-100">
-    <!-- Desktop Top Navigation Bar -->
-    <header class="sticky-top bg-white border-bottom shadow-sm">
-      <div class="container-xl d-flex justify-content-between align-items-center py-2" style="min-height: 64px">
-        <div class="d-flex align-items-center gap-4">
-          <a class="navbar-brand fs-4 fw-bold text-primary-custom mb-0 text-decoration-none" href="index.html">
-            My Calendar
-          </a>
-          <!-- Classic Desktop Navigation -->
-          <nav class="d-none d-lg-flex align-items-center gap-4 mb-0">
-            <a class="nav-link text-secondary px-2 py-3" href="index.html">Início</a>
-            <a class="nav-link active px-2 py-3" href="evento.html">Novo Evento</a>
-            <a class="nav-link text-secondary px-2 py-3" href="estatisticas.html">Estatísticas</a>
-          </nav>
-        </div>
-        <div class="d-flex align-items-center gap-3">
-          <!-- User Avatar -->
-          <button aria-label="account_circle" class="btn btn-link text-secondary p-0 text-decoration-none">
+    <!-- Cabeçalho -->
+    <header class="sticky-top">
+      <nav class="navbar bg-white border-bottom" aria-label="Menu principal">
+        <div class="container-xl">
+          <a class="navbar-brand fw-bold text-primary" href="index.html">My Calendar</a>
+
+          <!-- Menu do topo: só aparece a partir do lg (992px) -->
+          <ul class="navbar-nav flex-row gap-4 ms-4 me-auto d-none d-lg-flex">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Início</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="evento.html">Novo Evento</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="estatisticas.html">Estatísticas</a>
+            </li>
+          </ul>
+
+          <button class="btn btn-link text-secondary p-0" type="button" aria-label="Minha conta">
             <i class="bi bi-person-circle fs-3"></i>
           </button>
         </div>
-      </div>
+      </nav>
     </header>
-    <!-- Main Content -->
+
+    <!-- Conteúdo principal -->
     <main class="flex-grow-1 container-xl py-4 py-md-5">
+      <!-- O formulário fica centralizado e mais estreito em telas maiores -->
       <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-7">
-          <div class="card border border-light-subtle shadow-sm rounded-3">
+          <section class="card border-0 shadow-sm">
             <div class="card-body p-4 p-md-5">
-              <div class="mb-4">
-                <h1
-                  class="h3 fw-semibold text-dark mb-1"
-                  style="font-family: &quot;Plus Jakarta Sans&quot;, sans-serif"
-                >
-                  Criar Novo Evento
-                </h1>
-                <p class="text-muted small mb-0">Preencha os detalhes abaixo para agendar um novo compromisso.</p>
-              </div>
-              <form action="#" class="needs-validation" method="POST" novalidate="">
-                <!-- Row: Título -->
+              <h1 class="mb-1">Novo evento</h1>
+              <p class="text-body-secondary small mb-4">Preencha os dados abaixo para agendar um compromisso.</p>
+
+              <form id="form-evento">
                 <div class="mb-3">
-                  <label class="form-label fw-medium small" for="titulo">Título do Evento</label>
+                  <label class="form-label" for="titulo">Título do evento</label>
                   <input
                     class="form-control"
                     id="titulo"
                     name="titulo"
-                    placeholder="Ex: Reunião de Planejamento Trimestral"
-                    required=""
                     type="text"
+                    placeholder="Ex: Reunião de planejamento"
+                    required
                   />
-                  <div class="invalid-feedback">Por favor, informe o título do evento.</div>
                 </div>
-                <!-- Row: Data, Início, Fim -->
+
+                <!-- Data ocupa a linha toda no celular; início e fim dividem a linha de baixo -->
                 <div class="row g-3 mb-3">
                   <div class="col-12 col-md-4">
-                    <label class="form-label fw-medium small" for="data">Data</label>
-                    <input class="form-control" id="data" name="data" required="" type="date" />
-                    <div class="invalid-feedback">Data obrigatória.</div>
+                    <label class="form-label" for="data">Data</label>
+                    <input class="form-control" id="data" name="data" type="date" required />
                   </div>
                   <div class="col-6 col-md-4">
-                    <label class="form-label fw-medium small" for="hora_inicio">Horário Início</label>
-                    <input class="form-control" id="hora_inicio" name="hora_inicio" required="" type="time" />
-                    <div class="invalid-feedback">Informe o início.</div>
+                    <label class="form-label" for="hora-inicio">Início</label>
+                    <input class="form-control" id="hora-inicio" name="horaInicio" type="time" required />
                   </div>
                   <div class="col-6 col-md-4">
-                    <label class="form-label fw-medium small" for="hora_fim">Horário Fim</label>
-                    <input class="form-control" id="hora_fim" name="hora_fim" required="" type="time" />
-                    <div class="invalid-feedback">Informe o fim.</div>
+                    <label class="form-label" for="hora-fim">Fim</label>
+                    <input class="form-control" id="hora-fim" name="horaFim" type="time" required />
                   </div>
                 </div>
-                <!-- Row: Descrição -->
+
                 <div class="mb-3">
-                  <label class="form-label fw-medium small" for="descricao">Descrição</label>
+                  <label class="form-label" for="descricao">Descrição</label>
                   <textarea
                     class="form-control"
                     id="descricao"
                     name="descricao"
-                    placeholder="Adicione detalhes sobre o evento..."
                     rows="3"
+                    placeholder="Detalhes do evento (opcional)"
                   ></textarea>
                 </div>
-                <!-- Row: Categoria e Recorrência -->
-                <div class="row g-3 mb-3">
+
+                <div class="row g-3 mb-4">
                   <div class="col-12 col-md-6">
-                    <label class="form-label fw-medium small" for="categoria">Categoria</label>
-                    <select class="form-select" id="categoria" name="categoria">
-                      <option value="">Selecione...</option>
+                    <label class="form-label" for="categoria">Categoria</label>
+                    <select class="form-select" id="categoria" name="categoria" required>
+                      <option value="" selected>Selecione...</option>
                       <option value="trabalho">Trabalho</option>
                       <option value="pessoal">Pessoal</option>
                       <option value="saude">Saúde</option>
                       <option value="estudos">Estudos</option>
+                      <option value="outro">Outro</option>
                     </select>
                   </div>
                   <div class="col-12 col-md-6">
-                    <label class="form-label fw-medium small" for="recorrencia">Recorrência</label>
+                    <label class="form-label" for="recorrencia">Recorrência</label>
                     <select class="form-select" id="recorrencia" name="recorrencia">
-                      <option selected="" value="nenhuma">Não se repete</option>
+                      <option value="nenhuma" selected>Não se repete</option>
                       <option value="diaria">Diariamente</option>
                       <option value="semanal">Semanalmente</option>
                       <option value="mensal">Mensalmente</option>
+                      <option value="anual">Anualmente</option>
                     </select>
                   </div>
                 </div>
-                <hr class="my-4 text-muted" />
-                <!-- Seção de Localização -->
-                <div class="mb-3">
-                  <h6 class="fw-semibold text-secondary mb-3 small text-uppercase letter-spacing">
-                    Endereço e Localização
-                  </h6>
+
+                <!-- Endereço: o CEP será consultado na API ViaCEP (Entrega 3) -->
+                <fieldset class="border-top pt-4">
+                  <legend class="fs-6 fw-medium text-body-secondary text-uppercase mb-3">Local</legend>
+
                   <div class="row g-3 mb-3">
-                    <!-- CEP com input-group e botão de busca -->
                     <div class="col-12 col-md-5">
-                      <label class="form-label fw-medium small" for="cep">CEP</label>
+                      <label class="form-label" for="cep">CEP</label>
                       <div class="input-group">
                         <input
                           class="form-control"
                           id="cep"
-                          maxlength="9"
                           name="cep"
-                          placeholder="00000-000"
                           type="text"
+                          maxlength="9"
+                          placeholder="00000-000"
                         />
-                        <button
-                          aria-label="Buscar CEP"
-                          class="btn btn-outline-secondary"
-                          id="btn-buscar-cep"
-                          type="button"
-                        >
+                        <button class="btn btn-outline-secondary" type="button" aria-label="Buscar CEP">
                           <i class="bi bi-search"></i>
                         </button>
                       </div>
                     </div>
-                    <!-- Logradouro -->
                     <div class="col-12 col-md-7">
-                      <label class="form-label fw-medium small" for="logradouro">Logradouro</label>
+                      <label class="form-label" for="logradouro">Logradouro</label>
                       <input
                         class="form-control"
                         id="logradouro"
                         name="logradouro"
-                        placeholder="Rua, Avenida, etc."
                         type="text"
+                        placeholder="Rua, avenida..."
                       />
                     </div>
                   </div>
+
+                  <!-- Bairro ocupa a linha toda no celular; cidade e UF dividem a linha de baixo -->
                   <div class="row g-3">
-                    <!-- Cidade -->
-                    <div class="col-12 col-md-8">
-                      <label class="form-label fw-medium small" for="cidade">Cidade</label>
-                      <input class="form-control" id="cidade" name="cidade" placeholder="Ex: São Paulo" type="text" />
+                    <div class="col-12 col-md-5">
+                      <label class="form-label" for="bairro">Bairro</label>
+                      <input class="form-control" id="bairro" name="bairro" type="text" placeholder="Ex: Centro" />
                     </div>
-                    <!-- UF -->
-                    <div class="col-12 col-md-4">
-                      <label class="form-label fw-medium small" for="uf">UF</label>
-                      <input class="form-control" id="uf" maxlength="2" name="uf" placeholder="SP" type="text" />
+                    <div class="col-8 col-md-5">
+                      <label class="form-label" for="cidade">Cidade</label>
+                      <input class="form-control" id="cidade" name="cidade" type="text" placeholder="Ex: Curitiba" />
+                    </div>
+                    <div class="col-4 col-md-2">
+                      <label class="form-label" for="uf">UF</label>
+                      <input class="form-control" id="uf" name="uf" type="text" maxlength="2" placeholder="PR" />
                     </div>
                   </div>
-                </div>
-                <!-- Botões de Ação -->
+                </fieldset>
+
+                <!-- Botões: Cancelar volta para a lista -->
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
-                  <button class="btn btn-outline-secondary px-4" type="button">Cancelar</button>
-                  <button class="btn btn-primary px-4 shadow-sm" type="submit">Salvar Evento</button>
+                  <a class="btn btn-outline-secondary" href="index.html">Cancelar</a>
+                  <button class="btn btn-primary" type="submit">Salvar evento</button>
                 </div>
               </form>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </main>
-    <!-- Footer (Desktop & Tablet) -->
-    <footer class="bg-white border-top py-3 mt-auto">
-      <div class="container-xl d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
-        <div class="small fw-semibold text-secondary">My Calendar © 2026</div>
-        <ul class="nav gap-3">
-          <li class="nav-item"><a class="nav-link p-0 text-muted small" href="#">Privacidade</a></li>
-          <li class="nav-item"><a class="nav-link p-0 text-muted small" href="#">Termos</a></li>
-          <li class="nav-item"><a class="nav-link p-0 text-muted small" href="#">Suporte</a></li>
-        </ul>
+
+    <!-- Rodapé -->
+    <footer class="rodape border-top mt-auto">
+      <div class="container-xl rodape-conteudo">
+        <p class="mb-0 fw-medium">My Calendar © 2026</p>
+        <nav class="rodape-links" aria-label="Links do rodapé">
+          <a href="#">Privacidade</a>
+          <a href="#">Termos</a>
+          <a href="#">Suporte</a>
+        </nav>
       </div>
     </footer>
-    <!-- Bottom Navigation Bar (Mobile only) — sticky-bottom: ocupa espaço no fluxo flex do body, então nunca cobre o footer -->
-    <nav class="navbar sticky-bottom bg-white border-top bottom-nav d-block d-lg-none py-1">
-      <div class="container-fluid px-4 h-100">
-        <div class="row w-100 text-center m-0 align-items-center h-100">
-          <div class="col-4 p-0">
-            <a class="text-decoration-none text-muted d-flex flex-column align-items-center" href="index.html">
-              <i class="bi bi-house fs-5"></i>
-              <span class="nav-item">Início</span>
-            </a>
-          </div>
-          <div class="col-4 p-0">
-            <a
-              class="text-decoration-none text-primary d-flex flex-column align-items-center fw-semibold"
-              href="evento.html"
-            >
-              <i class="bi bi-plus-circle-fill fs-5"></i>
-              <span class="nav-item">Novo</span>
-            </a>
-          </div>
-          <div class="col-4 p-0">
-            <a class="text-decoration-none text-muted d-flex flex-column align-items-center" href="estatisticas.html">
-              <i class="bi bi-bar-chart fs-5"></i>
-              <span class="nav-item">Estatísticas</span>
-            </a>
-          </div>
-        </div>
-      </div>
+
+    <!-- Menu do celular: some a partir do lg (992px) -->
+    <nav class="barra-inferior border-top" aria-label="Menu do celular">
+      <a class="barra-inferior-link" href="index.html">
+        <i class="bi bi-house-door"></i>
+        <span>Início</span>
+      </a>
+      <a class="barra-inferior-link ativo" aria-current="page" href="evento.html">
+        <i class="bi bi-plus-circle"></i>
+        <span>Novo</span>
+      </a>
+      <a class="barra-inferior-link" href="estatisticas.html">
+        <i class="bi bi-bar-chart-line"></i>
+        <span>Estatísticas</span>
+      </a>
     </nav>
-    <!-- Bootstrap 5.3 JS Bundle (local, via npm) -->
+
+    <!-- JavaScript do Bootstrap -->
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      // Bootstrap validation script example
-      (() => {
-        "use strict";
-        const forms = document.querySelectorAll(".needs-validation");
-        Array.from(forms).forEach((form) => {
-          form.addEventListener(
-            "submit",
-            (event) => {
-              if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add("was-validated");
-            },
-            false,
-          );
-        });
-      })();
-    </script>
   </body>
 </html>

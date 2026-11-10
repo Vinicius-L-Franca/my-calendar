@@ -1,0 +1,9 @@
+@use "sass:math";
+
+// Converte px em rem. 1rem é o tamanho da fonte do navegador (16px por padrão).
+// O documento técnico define os tokens em px; com esta função eu escrevo o valor
+// do documento e o CSS final sai em rem, que acompanha a fonte escolhida pelo usuário.
+// Exemplo: px-para-rem(24px) vira 1.5rem
+@function px-para-rem($px) {
+  @return math.div($px, 16px) * 1rem;
+}

@@ -1,0 +1,10 @@
+// Barra do topo (navbar do Bootstrap)
+.navbar {
+  min-height: px-para-rem(64px);
+}
+
+// Link da página atual no menu do topo: azul e sublinhado
+.navbar .nav-link.active {
+  color: $primary;
+  border-bottom: px-para-rem(3px) solid $primary;
+}
