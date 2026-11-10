@@ -1,233 +1,97 @@
-# My Calendar
+# my-calendar
 
-**Autor:** Vinicius Liepienski de França
+### **Autor:** Vinicius Liepienski de França
 
----
+Este projeto tem como objetivo implementar uma agenda pessoal web, em que o usuário cria, visualiza, edita e exclui seus compromissos. Os eventos aparecem como cards coloridos por categoria, com busca, filtro, marcação de conclusão, recorrência, endereço preenchido pelo CEP e uma página de estatísticas.
 
-## Descrição
+O frontend da aplicação foi desenvolvido com HTML, Sass (Bootstrap) e JavaScript, e o backend será simulado pela implementação de uma API Fake, usando o JSON Server.
 
-My Calendar é uma aplicação web de agenda pessoal que permite ao usuário criar, visualizar, editar e excluir compromissos. Os eventos são organizados como cards em um layout responsivo, com busca por texto, filtro por categoria, marcação de conclusão, recorrência, preenchimento de endereço via CEP (API ViaCEP) e página de estatísticas — tudo acessível diretamente pelo navegador.
+## 📚 Documentação do Projeto
 
----
+Para entender as regras de negócio, o escopo e a arquitetura técnica da aplicação, consulte os documentos abaixo:
 
-## Prototipação no Figma
+- [📄 Product Requirements Document (PRD)](./docs/prd.md) - Visão geral, atores, histórias de usuário e regras de negócio.
+- [🛠️ Especificação Técnica (Tech Spec)](./docs/architecture.md) - Diagrama de banco de dados (DER), dicionário de dados e rotas da API (JSON Server).
 
-https://stitch.withgoogle.com/projects/6869356017674285767
+## 🎨 Design
 
----
+- [🎨 Design System](./docs/design-system.md) - Identidade visual
+- [🖼️ Protótipo no Stitch](https://stitch.withgoogle.com/projects/6869356017674285767) - Telas da aplicação no celular e no desktop.
 
-## Design System
+## 🌐 Site em Produção - GitHub Pages
 
-> Documento de referência do Design System: [docs/architecture.md](docs/architecture.md#3-design-tokens-css-variables)
+A partir da Entrega 3.
 
----
+## 💻 Tecnologias e Dependências
 
-## Framework CSS
+- **Framework CSS:** Bootstrap 5.3.8, personalizado com Sass
+- **Ícones:** Bootstrap Icons
+- **JavaScript:**
+  - **JQuery** - Para realizar animações e manipulação do DOM.
+  - **JSON Server** - Para simular uma API REST.
+- **APIs públicas:** ViaCEP (endereço a partir do CEP) e Date Nager (feriados nacionais)
 
-**Bootstrap v5.3.8** (instalado via npm e carregado de `node_modules/`).
+## ✅ Checklist | Indicadores de Desempenho (ID) dos Resultados de Aprendizagem (RA)
 
-### Por que Bootstrap?
+#### RA1 - Utilizar Frameworks CSS para estilização de elementos HTML e criação de layouts responsivos.
 
-| Critério                 | Análise                                                                                                                                                                             |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Responsividade**       | Sistema de grid pronto (`container`, `row`, `col`) com breakpoints que suporta a abordagem mobile-first, eliminando a necessidade de media queries manuais na maior parte do layout |
-| **Componentes prontos**  | Cards, navbar, formulários, badges, modal e collapse disponíveis de fábrica, cobrindo as páginas de listagem, formulário e estatísticas                                             |
-| **Interatividade**       | Componentes JavaScript do framework (modal, collapse, tooltip) prontos para uso                                                                                                     |
-| **Comunidade/atividade** | Projeto muito ativo no GitHub (~174 mil estrelas, 360 contribuidores), com documentação extensa e atualizada em português                                                           |
-| **Adoção**               | Padrão de mercado, facilita manutenção e integração com IA para geração de código                                                                                                   |
+- [x] ID 01 - Prototipa interfaces adaptáveis para no mínimo os tamanhos de tela mobile e desktop, usando ferramentas de design tradicionais (Figma, Quant UX ou Sketch) ou IA (Stitch).
+- [x] ID 02 - Implementa layout responsivo com Framework CSS (Bootstrap, Materialize) usando Flexbox ou Grid do próprio framework.
+- [x] ID 03 - Implementa layout responsivo com CSS puro, usando Flexbox ou Grid Layout.
+- [x] ID 04 - Utiliza componentes prontos de um Framework CSS (ex.: card, button) e componentes JavaScript do framework (ex.: modal, carousel).
+- [x] ID 05 - Cria layout fluido usando unidades relativas (vw, vh, %, em, rem) no lugar de unidades fixas (px).
+- [x] ID 06 - Aplica um Design System consistente (cores, tipografia, padrões de componentes) em toda a aplicação.
+- [x] ID 07 - Utiliza Sass (SCSS) com ou sem framework, aplicando variáveis, mixins e funções para modularizar o código.
+- [x] ID 08 - Aplica tipografia responsiva (media queries mobile first) ou tipografia fluida (função clamp() + unidades relativas).
+- [x] ID 09 - Aplica técnicas de responsividade de imagens usando CSS (object-fit, containers com unidades relativas).
+- [x] ID 10 - Otimiza imagens usando formatos modernos (WebP) e carregamento adaptativo (srcset, picture, ou parâmetros do Cloudinary).
 
-## Tecnologias e Dependências
+#### RA2 - Realizar tratamento de formulários e aplicar validações customizadas no lado cliente.
 
-| Tecnologia                                             | Versão | Tipo                             | Status         |
-| ------------------------------------------------------ | ------ | -------------------------------- | -------------- |
-| [Bootstrap](https://getbootstrap.com/)                 | v5.3.8 | Framework CSS (npm)              | Instalado      |
-| [Bootstrap Icons](https://icons.getbootstrap.com/)     | v1.13  | Biblioteca de ícones (npm)       | Instalado      |
-| [JSON Server](https://github.com/typicode/json-server) | v1.x   | API fake (backend simulado)      | A instalar     |
-| [ViaCEP](https://viacep.com.br/)                       | v1     | API pública (consulta de CEP)    | Sem instalação |
-| [Date Nager](https://date.nager.at/)                   | v3     | API pública (feriados nacionais) | Sem instalação |
+- [ ] ID 11 - Implementa validação HTML nativa (campos obrigatórios, tipos, limites de caracteres) com mensagens de erro/sucesso no lado cliente.
+- [ ] ID 12 - Aplica expressões regulares (REGEX) para validações customizadas (e-mail, telefone, datas, etc.)
+- [ ] ID 13 - Utiliza elementos de seleção em formulários (checkbox, radio, select) para coleta de dados.
+- [ ] ID 14 - Implementa leitura e escrita no Web Storage (localStorage/sessionStorage) para persistir dados localmente.
 
-### Escolha das APIs Públicas
+#### RA3 - Aplicar ferramentas para otimização do processo de desenvolvimento web.
 
-**ViaCEP — por quê?**
+- [x] ID 15 - Configura ambiente com Node.js e NPM para gerenciamento de pacotes e dependências.
+- [x] ID 16 - Utiliza boas práticas de versionamento no Git/GitHub (branch main ou branches específicos, uso de .gitignore).
+- [ ] ID 17 - Mantém um README.md padronizado, conforme template da disciplina, com checklist preenchido.
+- [ ] ID 18 - Organiza arquivos do projeto de forma modular, seguindo padrão de exemplo fornecido.
+- [ ] ID 19 - Configura linters e formatadores (ESLint, Prettier) para manter qualidade e padronização do código.
 
-O projeto é uma agenda pessoal e o formulário de eventos precisa registrar o **local** de cada compromisso. A API ViaCEP permite que o usuário informe apenas o CEP e o sistema preencha automaticamente logradouro, bairro, cidade e UF, economizando digitação e reduzindo erros.
+#### RA4 - Aplicar bibliotecas de funções e componentes em JavaScript para aprimorar a interatividade de páginas web.
 
-Critérios avaliados:
+- [ ] ID 20 - Utiliza jQuery para manipulação do DOM e interatividade (eventos, animações, manipulação de elementos)
+- [ ] ID 21 - Integra e configura um plugin jQuery relevante (ex.: jQuery Mask Plugin) ou outra biblioteca de funções.
 
-- **Sem chave de API/token** — uso gratuito e simplificado, sem etapa de cadastro
-- **Resposta em JSON** — fácil de consumir com `fetch`/`async/await`
-- **Relevância ao domínio** — agrega valor direto à funcionalidade de "local do evento"
-- **Documentação simples** — endpoint único e previsível: `GET https://viacep.com.br/ws/{cep}/json/`
-- **Tratamento de erros** — a API retorna `"erro": true` para CEPs inexistentes, permitindo exibir mensagens amigáveis (atende ao ID 24 dos RAs)
+#### RA5 - Efetuar requisições assíncronas para uma API fake e APIs públicas, permitindo a obtenção e manipulação de dados dinamicamente.
 
-**Date Nager — por quê?**
+- [ ] ID 22 - Realiza requisições assíncronas para uma API fake (ex.: JSON Server) para persistir dados de um formulário.
+- [ ] ID 23 - Realiza requisições assíncronas para uma API fake para exibir dados na página.
+- [ ] ID 24 - Realiza requisições assíncronas para APIs públicas reais (OpenWeather, ViaCEP etc.), exibindo os dados e tratando erros.
 
-Uma agenda pessoal ganha contexto quando o usuário sabe quais dias são feriados. A API Date Nager fornece os **feriados nacionais do Brasil** (nome em português) e permite que a aplicação exiba um badge "Feriado — {nome}" nos cards cuja data coincide com um feriado.
+## 🚀 Manual de execução
 
-Critérios avaliados:
+- Clonar o repositório com `git clone https://github.com/Vinicius-L-Franca/my-calendar.git` (a branch `main` tem a versão mais recente)
+- Abrir a pasta do projeto no editor Visual Studio Code (VS Code)
+- Abrir um terminal no VS Code, apontando para a pasta raiz do projeto
+- Instalar as dependências contidas no `package.json`
+  - Comando: `npm i`
+- Abrir o `index.html` com a extensão **Live Server** do VS Code
+  - O CSS já vem compilado em `assets/css/main.css`; não é preciso rodar o Sass só para ver o site
+- Para alterar os estilos, editar os arquivos de `assets/scss/` e gerar o CSS de novo
+  - Comando: `npm run sass` (ou `npm run sass:watch`, que recompila a cada alteração)
+- A API Fake (JSON Server) entra a partir da Entrega 3, com o comando para executá-la
 
-- **Sem chave de API/token** — uso gratuito, sem registro
-- **Dados em português** — o campo `localName` já retorna os nomes localizados (ex: "Dia da Independência", "Natal")
-- **Relevância ao domínio** — enriquece o calendário com dias não úteis
-- **Faixa de anos** — retorna feriados para qualquer ano, permitindo planejar com antecedência
-- **Baixo acoplamento** — consulta única por ano, com cache em localStorage e comportamento degradado caso a API falhe (atende ao ID 24 dos RAs)
+## 📱 Telas da aplicação
 
----
+![Tela inicial no celular](docs/telas/index-celular.png)
+![Tela inicial no desktop](docs/telas/index-desktop.png)
+![Formulário de evento no celular](docs/telas/evento-celular.png)
+![Formulário de evento no desktop](docs/telas/evento-desktop.png)
+![Estatísticas no celular](docs/telas/estatisticas-celular.png)
+![Estatísticas no desktop](docs/telas/estatisticas-desktop.png)
 
-## Link para Produção
-
-> URL do GitHub Pages (a definir)
-
----
-
-## Checklist da Atividade 06
-
-- [x] Configurei minha identidade no Git
-- [x] Clonei o repositório do meu projeto
-- [x] Inicializei o NPM (package.json)
-- [x] Criei o .gitignore ignorando node_modules e .env
-- [x] Instalei jquery e uuid como dependências de produção
-- [x] Instalei gh-pages como dependência de desenvolvimento
-- [x] Fiz commit e push para a branch main
-
-## Checklist de Funcionalidades
-
-- [ ] Listar eventos em cards (layout responsivo em grade)
-- [ ] Criar evento (título, data, hora, descrição, categoria, recorrência)
-- [ ] Editar evento existente
-- [ ] Excluir evento com confirmação
-- [ ] Buscar eventos por texto (título/descrição)
-- [ ] Filtrar eventos por categoria
-- [ ] Marcar evento como concluído
-- [ ] Categorias com cores (Trabalho, Pessoal, Saúde, Estudos, Outro)
-- [ ] Recorrência (diária, semanal, mensal, anual)
-- [ ] Busca de endereço por CEP via API ViaCEP
-- [ ] Indicação de feriados nacionais nos cards (API Date Nager)
-- [ ] Página de estatísticas (total, por categoria, concluídos)
-- [ ] Validação de formulários (HTML nativo + regex)
-- [ ] Persistência via JSON Server + cache localStorage
-- [ ] Layout responsivo (mobile e desktop)
-
----
-
-## Indicadores de Desempenho (ID) — Resultados de Aprendizagem (RA)
-
-> A aplicação deve ser implementada contendo as funcionalidades referentes aos tópicos apresentados a seguir, estruturados de acordo com os Resultados de Aprendizagem da Matriz por Competências.
-
-### RA1 — Utilizar Frameworks CSS para estilização de elementos HTML e criação de layouts responsivos
-
-- [ ] **ID 01** — Prototipa interfaces adaptáveis para no mínimo os tamanhos de tela mobile e desktop
-- [ ] **ID 02** — Implementa layout responsivo com Framework CSS usando Flexbox ou Grid do próprio framework
-- [ ] **ID 03** — Implementa layout responsivo com CSS puro, usando Flexbox ou Grid Layout
-- [ ] **ID 04** — Utiliza componentes prontos de um Framework CSS e componentes JavaScript do framework
-- [ ] **ID 05** — Cria layout fluido usando unidades relativas (vw, vh, %, em, rem) no lugar de unidades fixas (px)
-- [ ] **ID 06** — Aplica um Design System consistente (cores, tipografia, padrões de componentes) em toda a aplicação
-- [ ] **ID 07** — Utiliza Sass (SCSS) com ou sem framework, aplicando variáveis, mixins e funções
-- [ ] **ID 08** — Aplica tipografia responsiva (media queries mobile first) ou tipografia fluida (clamp())
-- [ ] **ID 09** — Aplica técnicas de responsividade de imagens usando CSS (object-fit, containers com unidades relativas)
-- [ ] **ID 10** — Otimiza imagens usando formatos modernos (WebP) e carregamento adaptativo (srcset, picture)
-
-### RA2 — Realizar tratamento de formulários e aplicar validações customizadas no lado cliente
-
-- [ ] **ID 11** — Implementa validação HTML nativa (campos obrigatórios, tipos, limites de caracteres) com mensagens de erro/sucesso
-- [ ] **ID 12** — Aplica expressões regulares (REGEX) para validações customizadas
-- [ ] **ID 13** — Utiliza elementos de seleção em formulários (checkbox, radio, select) para coleta de dados
-- [ ] **ID 14** — Implementa leitura e escrita no Web Storage (localStorage/sessionStorage) para persistir dados localmente
-
-### RA3 — Aplicar ferramentas para otimização do processo de desenvolvimento web
-
-- [ ] **ID 15** — Configura ambiente com Node.js e NPM para gerenciamento de pacotes e dependências
-- [ ] **ID 16** — Utiliza boas práticas de versionamento no Git/GitHub
-- [ ] **ID 17** — Mantém um README.md padronizado, conforme template da disciplina, com checklist preenchido
-- [ ] **ID 18** — Organiza arquivos do projeto de forma modular, seguindo padrão de exemplo fornecido
-- [ ] **ID 19** — Configura linters e formatadores (ESLint, Prettier) para manter qualidade e padronização do código
-
-### RA4 — Aplicar bibliotecas de funções e componentes em JavaScript para aprimorar a interatividade
-
-- [ ] **ID 20** — Utiliza jQuery para manipulação do DOM e interatividade (eventos, animações, manipulação de elementos)
-- [ ] **ID 21** — Integra e configura um plugin jQuery relevante ou outra biblioteca de funções
-
-### RA5 — Efetuar requisições assíncronas para uma API fake e APIs públicas
-
-- [ ] **ID 22** — Realiza requisições assíncronas para uma API fake (JSON Server) para persistir dados de um formulário
-- [ ] **ID 23** — Realiza requisições assíncronas para uma API fake para exibir dados na página
-- [ ] **ID 24** — Realiza requisições assíncronas para APIs públicas reais, exibindo os dados e tratando erros
-
----
-
-## Estrutura do Projeto
-
-```
-my-calendar/
-├── index.html                # (a criar) Lista de eventos em cards
-├── evento.html               # (a criar) Formulário de criação/edição
-├── estatisticas.html         # (a criar) Página de estatísticas
-├── css/                      # (a criar) Sobrescritas e extensões do Bootstrap
-│   ├── variables.css
-│   ├── layout.css
-│   ├── cards.css
-│   └── form.css
-├── js/                       # (a criar)
-│   ├── main.js
-│   ├── events.js
-│   ├── form.js
-│   ├── recurrence.js
-│   ├── stats.js
-│   └── storage.js
-├── db/                       # (a criar)
-│   └── db.json
-└── docs/
-    ├── prd.md
-    └── architecture.md
-```
-
----
-
-## Instruções de Execução
-
-### Pré-requisitos
-
-- [Node.js](https://nodejs.org/) (v18+)
-- npm
-
-### Instalação
-
-```bash
-# Clonar o repositório
-git clone https://github.com/viniciusfranca/my-calendar.git
-cd my-calendar
-
-# Instalar as dependências (Bootstrap, Bootstrap Icons, jQuery, uuid, gh-pages)
-npm install
-
-# Instalar JSON Server como dependência de desenvolvimento
-npm install --save-dev json-server
-
-# Iniciar o JSON Server na porta 3000
-npx json-server --watch db/db.json --port 3000
-```
-
-**Bootstrap e Bootstrap Icons:** carregados localmente de `node_modules/` pelos arquivos HTML (sem CDN) — rode `npm install` antes de abrir as páginas. O projeto funciona off-line, exceto pelas fontes do Google Fonts, que caem para a fonte padrão do sistema.
-
-### Execução
-
-1. Em outro terminal, abra o arquivo `index.html` no navegador ou use um servidor local (ex: Live Server do VS Code)
-2. A aplicação se comunica com o JSON Server em `http://localhost:3000`
-3. A página `evento.html` consulta a API ViaCEP (https://viacep.com.br) ao informar um CEP
-4. A página `index.html` consulta a API Date Nager (https://date.nager.at) para indicar feriados nos cards
-5. O Bootstrap é carregado de `node_modules/` em todas as páginas (CSS e JS do framework)
-
-> **Nota:** As páginas `index.html`, `evento.html`, `estatisticas.html`, as pastas `css/`, `js/`, `db/` e os arquivos da aplicação serão criados durante a implementação. Atualmente o repositório contém apenas a documentação (`docs/`).
-
----
-
-## Telas da Aplicação
-
-> Imagens das telas serão adicionadas após a implementação.
-
----
-
-## Documentação
-
-- [PRD (Product Requirements Document)](docs/prd.md)
-- [Architecture (Especificação Técnica)](docs/architecture.md)
+A foto do banner é do [Unsplash](https://unsplash.com/license) (uso livre).
